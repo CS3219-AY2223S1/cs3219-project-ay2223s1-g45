@@ -1,5 +1,5 @@
 const reportWebVitals = (onPerfEntry: any = undefined) => {
-  if (onPerfEntry && onPerfEntry instanceof Function ) {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
     import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
       getCLS(onPerfEntry);
       getFID(onPerfEntry);

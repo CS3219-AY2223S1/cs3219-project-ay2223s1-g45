@@ -7,18 +7,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { ormCreateUser as _createUser } from '../model/user-orm.js';
-export function createUser(req, res) {
+/* eslint-disable no-else-return */
+import ormCreateUser from '../model/user-orm';
+export default function createUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { username, password } = req.body;
             if (username && password) {
-                const resp = yield _createUser(username, password);
+                const resp = yield ormCreateUser(username, password);
+                // eslint-disable-next-line no-console
                 console.log(resp);
                 if (resp.err) {
                     return res.status(400).json({ message: 'Could not create a new user!' });
                 }
                 else {
+                    // eslint-disable-next-line no-console
                     console.log(`Created new user ${username} successfully!`);
                     return res.status(201).json({ message: `Created new user ${username} successfully!` });
                 }

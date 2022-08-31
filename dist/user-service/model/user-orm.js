@@ -7,9 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { createUser } from './repository.js';
-//need to separate orm functions from repository to decouple business logic from persistence
-export function ormCreateUser(username, password) {
+import createUser from './repository';
+// need to separate orm functions from repository to decouple business logic from persistence
+export default function ormCreateUser(username, password) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const newUser = yield createUser({ username, password });
@@ -17,6 +17,7 @@ export function ormCreateUser(username, password) {
             return true;
         }
         catch (err) {
+            // eslint-disable-next-line no-console
             console.log('ERROR: Could not create new user');
             return { err };
         }

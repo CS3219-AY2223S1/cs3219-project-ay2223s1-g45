@@ -7,15 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import UserModel from './user-model.js';
-import 'dotenv/config';
-//Set up mongoose connection
 import mongoose from 'mongoose';
-let mongoDB = process.env.ENV == "PROD" ? process.env.DB_CLOUD_URI : process.env.DB_LOCAL_URI;
+import UserModel from './user-model';
+import 'dotenv/config';
+const mongoDB = process.env.ENV === 'PROD' ? process.env.DB_CLOUD_URI : process.env.DB_LOCAL_URI;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-let db = mongoose.connection;
+const db = mongoose.connection;
+// eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-export function createUser(params) {
+export default function createUser(params) {
     return __awaiter(this, void 0, void 0, function* () {
         return new UserModel(params);
     });
