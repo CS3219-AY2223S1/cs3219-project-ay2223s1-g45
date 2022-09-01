@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "start-matching-service": "node --experimental-modules --es-module-specifier-resolution=node matching-service/index.js",
-    "start-user-service": "node --experimental-modules --es-module-specifier-resolution=node user-service/index.js",
-    "dev-matching-service": "node  --experimental-modules --es-module-specifier-resolution=node matching-service/index.js",
-    "dev-user-service": "node --experimental-modules --es-module-specifier-resolution=node matching-service/index.js"
+    "start-matching-service": "tsc && node --experimental-modules --es-module-specifier-resolution=node matching-service/index.js",
+    "start-user-service": "tsc && node --experimental-modules --es-module-specifier-resolution=node user-service/index.js",
+    "dev-matching-service": "tsc && node --experimental-modules --es-module-specifier-resolution=node matching-service/index.js",
+    "dev-user-service": "tsc && node --experimental-modules --es-module-specifier-resolution=node matching-service/index.js"
   },
   "type": "module",
   "devDependencies": {
