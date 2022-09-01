@@ -4,7 +4,11 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prepare": "husky install && chmod ug+x .husky/*",
-    "build": "tsc"
+    "build": "tsc",
+    "start-user-service": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/user-service/index.js",
+    "dev-user-service": "npm run build && nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/user-service/index.js",
+    "start-matching-service": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/matching-service/index.js",
+    "dev-matching-service": "npm run build && nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/matching-service/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
