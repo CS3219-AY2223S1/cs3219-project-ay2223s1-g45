@@ -6,7 +6,11 @@ This document details how to set this repository up locally for development purp
 
 Clone the repo into your local environment. Each service is separated into its own sub-repository.
 They are to be run seperately. Instructions on how to do this can be seen below. Before continuing,
-ensure that you are in the root directory of the project.
+ensure that you are in the root directory of the project. Before proceeding, run the following command:
+
+```
+$ npm i
+```
 
 ### User-Service
 
