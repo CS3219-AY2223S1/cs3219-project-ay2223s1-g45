@@ -26,7 +26,7 @@ If you intend to run the projects immediately, you may skip the command above an
 $ npm run start
 ```
 
-This command runs the build step prior to starting all the projects. __Both of these commands also handle dependency installation.__
+This command runs the build step prior to starting all the projects. **Both of these commands also handle dependency installation.**
 
 ## Building and Running Individual Services
 
