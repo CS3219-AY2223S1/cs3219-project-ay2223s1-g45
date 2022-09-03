@@ -32,12 +32,5 @@
   "plugins": ["react"],
   "rules": {
     "react/react-in-jsx-scope": "off"
-  },
-  "ignorePatterns": [
-    ".eslintrc.json",
-    "dist",
-    "apps/frontend/build",
-    "babel.config.js",
-    "tsconfig.json"
-  ]
+  }
 }
