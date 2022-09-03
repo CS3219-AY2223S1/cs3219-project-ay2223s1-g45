@@ -3,7 +3,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "nx run-many --target=build",
+    "start": "nx run-many --target=start"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
@@ -25,6 +27,8 @@
     "eslint-plugin-react": "^7.31.1",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
-    "typescript": "^4.8.2"
+    "typescript": "^4.8.2",
+    "nx": "14.6.4",
+    "@nrwl/nx-cloud": "latest"
   }
 }
