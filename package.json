@@ -4,7 +4,7 @@
     "lint:fix": "eslint --fix",
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
     "prepare": "husky install",
-    "build": "nx run-many --target=build",
+    "build": "npm i && nx run-many --target=build",
     "start": "npm run build && nx run-many --target=start"
   },
   "devDependencies": {
