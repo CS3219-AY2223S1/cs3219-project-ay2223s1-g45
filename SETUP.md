@@ -12,6 +12,24 @@ ensure that you are in the root directory of the project. Before proceeding, run
 $ npm i
 ```
 
+## Building and Running in Parallel
+
+This repository uses NX to allow parallel and building and running of all projects. In order to build all projects in parallel, navigate to the root of the project and execute the following command:
+
+```
+$ npm run build
+```
+
+If you intend to run the projects immediately, you may skip the command above and run the following command instead:
+
+```
+$ npm run start
+```
+
+This command runs the build step prior to starting all the projects. __Both of these commands also handle dependency installation.__
+
+## Building and Running Individual Services
+
 ### User-Service
 
 To run the user service, ensure you are in the root directory of the project and run the following commands sequentially:
