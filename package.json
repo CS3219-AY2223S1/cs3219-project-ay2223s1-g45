@@ -5,7 +5,7 @@
     "format": "prettier --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc",
     "prepare": "husky install",
     "build": "nx run-many --target=build",
-    "start": "nx run-many --target=start"
+    "start": "npm run build && nx run-many --target=start"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.10",
