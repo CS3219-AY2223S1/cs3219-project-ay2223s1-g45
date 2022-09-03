@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "allowJs": true,
+    "target": "es6",
+    "module": "es2020",
+    "strict": true,
+    "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@app/user-service": ["user-service/index.ts"],
+      "@app/matching-service": ["matching-service/index.ts"],
+      "@app/frontend/public": ["frontend/index.ts"],
+      "@dist/frontend": ["dist/frontend/App.js"],
+      "@dist/matching-service": ["dist/matching-service/index.js"],
+      "@dist/user-service": ["dist/user-service/index.js"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js", "./**/*.jsx"]
+}

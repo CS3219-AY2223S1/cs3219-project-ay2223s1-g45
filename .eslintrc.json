@@ -33,5 +33,5 @@
   "rules": {
     "react/react-in-jsx-scope": "off"
   },
-  "ignorePatterns": [".eslintrc.json", "dist", "babel.config.js"]
+  "ignorePatterns": [".eslintrc.json", "dist", "babel.config.js", "tsconfig.json"]
 }
