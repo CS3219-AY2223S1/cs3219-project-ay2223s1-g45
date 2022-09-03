@@ -1,4 +1,3 @@
-/* eslint-disable no-else-return */
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import ormCreateUser from '../model/user-orm';
