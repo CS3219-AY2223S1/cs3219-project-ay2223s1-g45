@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieSession from 'cookie-session';
 import { PathParams } from 'express-serve-static-core';
-import createUser from './controller/user-controller';
+import { createUser, login, logout } from './controller/user-controller';
 import verifySignUp from './middlewares/verify-signup';
 
 const app = express();
@@ -13,7 +13,7 @@ app.options('*', cors() as any);
 app.use(
   cookieSession({
     name: 'session',
-    secret: 'COOKIE_SECRET', // should use as secret environment variable
+    secret: 'COOKIE_SECRET', // TODO: should use as secret environment variable
     httpOnly: true
   })
 );
@@ -22,7 +22,9 @@ const router = express.Router();
 
 // Controller will contain all the User-defined Routes
 router.get('/', (_, res) => res.send('Hello World from user-service'));
-router.post('/', [verifySignUp.checkDuplicateUsername], createUser);
+router.post('/signup', [verifySignUp.checkDuplicateUsername], createUser);
+router.post('/login', login);
+router.post('/logout', logout);
 
 app.use('/api/user', router).all(((_: any, res: any) => {
   res.setHeader('content-type', 'application/json');
