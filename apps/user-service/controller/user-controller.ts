@@ -24,34 +24,39 @@ export async function createUser(req: any, res: any) {
 }
 
 export async function login(req: any, res: any) {
-  userModel
-    .findOne({
-      username: req.body.username
-    })
-    .exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
-      if (!user) {
-        res.status(404).send({ message: 'User Not found.' });
-        return;
-      }
-      const passwordIsValid = bcryptjs.compareSync(req.body.password, user.password);
-      if (!passwordIsValid) {
-        res.status(401).send({ message: 'Invalid Password!' });
-        return;
-      }
-      // TODO: should use as secret environment variable
-      const token = jwt.sign({ id: user.id }, 'JWT_SECRET', {
-        expiresIn: 86400 // 24 hours
+  const { username, password } = req.body;
+  if (username && password) {
+    userModel
+      .findOne({
+        username
+      })
+      .exec((err, user) => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        if (!user) {
+          res.status(404).send({ message: 'User Not found.' });
+          return;
+        }
+        const passwordIsValid = bcryptjs.compareSync(password, user.password);
+        if (!passwordIsValid) {
+          res.status(401).send({ message: 'Invalid Password!' });
+          return;
+        }
+        // TODO: should use as secret environment variable
+        const token = jwt.sign({ id: user.id }, 'JWT_SECRET', {
+          expiresIn: 86400 // 24 hours
+        });
+        req.session.token = token;
+        res.status(200).send({
+          username: user.username,
+          message: "You've been logged in!"
+        });
       });
-      req.session.token = token;
-      res.status(200).send({
-        username: user.username,
-        message: "You've been logged in!"
-      });
-    });
+  } else {
+    res.status(400).send({ message: 'Username and/or Password are missing!' });
+  }
 }
 
 export async function logout(req: any, res: any) {

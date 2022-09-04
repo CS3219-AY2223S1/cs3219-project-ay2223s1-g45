@@ -26,7 +26,7 @@ router.get('/', (_, res) => res.send('Hello World from user-service'));
 router.post('/signup', [verifySignUp.checkDuplicateUsername], createUser);
 router.post('/login', login);
 router.post('/logout', logout);
-router.get('/userContent', [authJwt.verifyToken], userContent);
+router.get('/user-content', [authJwt.verifyToken], userContent);
 
 app.use('/api/user', router).all(((_: any, res: any) => {
   res.setHeader('content-type', 'application/json');
