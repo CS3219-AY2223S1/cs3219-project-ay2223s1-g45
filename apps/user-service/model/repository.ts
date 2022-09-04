@@ -10,6 +10,6 @@ const db = mongoose.connection;
 // eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-export default async function createUser(params: any) {
+export default function createUser(params: any) {
   return new UserModel(params);
 }
