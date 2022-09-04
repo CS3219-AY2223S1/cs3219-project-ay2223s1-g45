@@ -34,7 +34,6 @@ function DifficultySelectPage() {
       </Typography>
       <FormControl>
         <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
           defaultValue={DIFFICULTY.EASY}
           value={difficulty}
           name="radio-buttons-group"
