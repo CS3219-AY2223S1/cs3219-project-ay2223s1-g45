@@ -58,3 +58,8 @@ export async function logout(req: any, res: any) {
   req.session = null;
   return res.status(200).send({ message: "You've been logged out!" });
 }
+
+// Dummy API to test authorization
+export async function userContent(req: any, res: any) {
+  res.status(200).send({ userId: req.userId, message: 'User content' });
+}
