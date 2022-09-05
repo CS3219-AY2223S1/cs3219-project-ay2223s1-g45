@@ -13,7 +13,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -75,6 +75,10 @@ function LoginPage() {
         <Button variant={'outlined'} onClick={handleLogin}>
           Log In
         </Button>
+      </Box>
+
+      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
+        <Link to={'../signup'}>Don't have an account? Sign Up.</Link>
       </Box>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
