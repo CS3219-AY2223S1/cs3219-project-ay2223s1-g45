@@ -12,13 +12,15 @@ function SettingsPage() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/logout`).catch((err) => {
-      if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('Unable to log out');
-      } else {
-        setErrorDialog('Please try again later');
-      }
-    });
+    const res = await axios
+      .post(`${URL_USER_SVC}/logout`, {}, { withCredentials: true })
+      .catch((err) => {
+        if (err.response.status === STATUS_CODE_CONFLICT) {
+          setErrorDialog('Unable to log out');
+        } else {
+          setErrorDialog('Please try again later');
+        }
+      });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     } else {

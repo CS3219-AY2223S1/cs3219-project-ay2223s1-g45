@@ -9,8 +9,13 @@ import verifySignUp from './middlewares/verify-signup';
 const app = express();
 app.use(express.urlencoded({ extended: true }) as unknown as PathParams);
 app.use(express.json() as unknown as PathParams);
-app.use(cors() as unknown as PathParams); // config cors so that front-end can use
-app.options('*', cors() as any);
+app.use(
+  cors({
+    // TODO: add prod url
+    origin: ['http://localhost:3000'],
+    credentials: true
+  })
+);
 app.use(
   cookieSession({
     name: 'session',
