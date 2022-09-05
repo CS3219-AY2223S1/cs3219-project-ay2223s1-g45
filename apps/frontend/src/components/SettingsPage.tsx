@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
@@ -17,31 +9,24 @@ function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
-  const [isLogoutSuccess, setIsLogoutSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    setIsLogoutSuccess(false);
     const res = await axios.post(`${URL_USER_SVC}/logout`).catch((err) => {
       if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('This username already exists');
+        setErrorDialog('Unable to log out');
       } else {
         setErrorDialog('Please try again later');
       }
     });
     if (res && res.status === STATUS_CODE_OK) {
-      setSuccessDialog('User successfully logged out');
-      setIsLogoutSuccess(true);
+      handleNavigation();
+    } else {
+      closeDialog();
     }
   };
 
   const closeDialog = () => setIsDialogOpen(false);
-
-  const setSuccessDialog = (msg: any) => {
-    setIsDialogOpen(true);
-    setDialogTitle('Success');
-    setDialogMsg(msg);
-  };
 
   const setErrorDialog = (msg: any) => {
     setIsDialogOpen(true);
@@ -49,8 +34,8 @@ function SettingsPage() {
     setDialogMsg(msg);
   };
 
-  const handleCloseDialog = () => {
-    isLogoutSuccess ? navigate('../login') : navigate('../settings');
+  const handleNavigation = () => {
+    navigate('../login');
   };
 
   return (
@@ -66,9 +51,6 @@ function SettingsPage() {
         <DialogContent>
           <DialogContentText>{dialogMsg}</DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleCloseDialog()}>Close</Button>
-        </DialogActions>
       </Dialog>
     </Box>
   );

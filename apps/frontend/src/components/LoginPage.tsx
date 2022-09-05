@@ -21,11 +21,9 @@ function LoginPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
-  const [isLoginSuccess, setIsLoginSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    setIsLoginSuccess(false);
     const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
       if (err.response.status === STATUS_CODE_CONFLICT) {
         setErrorDialog('This username already exists');
@@ -34,18 +32,13 @@ function LoginPage() {
       }
     });
     if (res && res.status === STATUS_CODE_OK) {
-      setSuccessDialog('User successfully logged in');
-      setIsLoginSuccess(true);
+      handleNavigation();
+    } else {
+      closeDialog();
     }
   };
 
   const closeDialog = () => setIsDialogOpen(false);
-
-  const setSuccessDialog = (msg: any) => {
-    setIsDialogOpen(true);
-    setDialogTitle('Success');
-    setDialogMsg(msg);
-  };
 
   const setErrorDialog = (msg: any) => {
     setIsDialogOpen(true);
@@ -53,8 +46,8 @@ function LoginPage() {
     setDialogMsg(msg);
   };
 
-  const handleCloseDialog = () => {
-    isLoginSuccess ? navigate('../settings') : navigate('../login');
+  const handleNavigation: () => void = () => {
+    navigate('../settings');
   };
 
   return (
@@ -90,7 +83,7 @@ function LoginPage() {
           <DialogContentText>{dialogMsg}</DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={() => handleCloseDialog()}>Close</Button>
+          <Button onClick={() => handleNavigation()}>Close</Button>
         </DialogActions>
       </Dialog>
     </Box>
