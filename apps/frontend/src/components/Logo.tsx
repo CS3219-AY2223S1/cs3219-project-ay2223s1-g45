@@ -8,7 +8,8 @@ export const Logo = () => {
       viewBox="0 0 375 374.999991"
       height="500"
       preserveAspectRatio="xMidYMid meet"
-      version="1.0">
+      version="1.0"
+    >
       <defs>
         <g />
         <clipPath id="id1">

@@ -59,7 +59,8 @@ function LoginPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}>
+      style={{ backgroundColor: 'white' }}
+    >
       <Box display={'flex'} width={'50%'}>
         <Logo />
       </Box>
@@ -91,7 +92,8 @@ function LoginPage() {
               color: 'white',
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-            }}>
+            }}
+          >
             Log In
           </Button>
         </Box>
