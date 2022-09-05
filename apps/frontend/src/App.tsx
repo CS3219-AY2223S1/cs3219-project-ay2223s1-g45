@@ -18,7 +18,7 @@ function App() {
     >
       <Box
         display={'flex'}
-        flexDirection={'column'}
+        flexDirection={'row'}
         padding={'4rem'}
         alignItems={'center'}
         style={{

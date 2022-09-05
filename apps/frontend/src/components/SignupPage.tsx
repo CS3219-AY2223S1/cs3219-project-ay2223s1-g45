@@ -13,6 +13,7 @@ import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED } from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
+import { Logo } from './Logo';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -52,59 +53,61 @@ function SignupPage() {
   return (
     <Box
       display={'flex'}
-      flexDirection={'column'}
       width={'90%'}
       alignItems={'center'}
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
-    >
-      <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
-        Sign Up
-      </Typography>
-      <TextField
-        label="Username"
-        variant="standard"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        sx={{ marginBottom: '1rem' }}
-        autoFocus
-      />
-      <TextField
-        label="Password"
-        variant="standard"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        sx={{ marginBottom: '2rem' }}
-      />
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button
-          variant={'outlined'}
-          onClick={handleSignup}
-          style={{
-            color: 'white',
-            borderColor: 'white',
-            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}
-        >
-          Sign up
-        </Button>
+      style={{ backgroundColor: 'white' }}>
+      <Box display={'flex'} width={'50%'}>
+        <Logo />
       </Box>
+      <Box display={'flex'} flexDirection={'column'} width={'50%'} alignItems={'center'}>
+        <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
+          Sign Up
+        </Typography>
+        <TextField
+          label="Username"
+          variant="standard"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          sx={{ marginBottom: '1rem' }}
+          autoFocus
+        />
+        <TextField
+          label="Password"
+          variant="standard"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          sx={{ marginBottom: '2rem' }}
+        />
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
+          <Button
+            variant={'outlined'}
+            onClick={handleSignup}
+            style={{
+              color: 'white',
+              borderColor: 'white',
+              background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+            }}>
+            Sign up
+          </Button>
+        </Box>
 
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} margin={'1%'}>
-        <Link to={'../login'} color={'#EF429A'}>
-          Already have an account? Log In.
-        </Link>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} margin={'1%'}>
+          <Link to={'../login'} color={'#EF429A'}>
+            Already have an account? Log In.
+          </Link>
+        </Box>
+
+        <Dialog open={isDialogOpen} onClose={closeDialog}>
+          <DialogTitle>{dialogTitle}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>{dialogMsg}</DialogContentText>
+          </DialogContent>
+        </Dialog>
       </Box>
-
-      <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <DialogTitle>{dialogTitle}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{dialogMsg}</DialogContentText>
-        </DialogContent>
-      </Dialog>
     </Box>
   );
 }
