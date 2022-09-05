@@ -13,7 +13,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -22,6 +22,7 @@ function LoginPage() {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     setIsLoginSuccess(false);
@@ -50,6 +51,10 @@ function LoginPage() {
     setIsDialogOpen(true);
     setDialogTitle('Error');
     setDialogMsg(msg);
+  };
+
+  const handleCloseDialog = () => {
+    isLoginSuccess ? navigate('../settings') : navigate('../login');
   };
 
   return (
@@ -85,13 +90,7 @@ function LoginPage() {
           <DialogContentText>{dialogMsg}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          {isLoginSuccess ? (
-            <Button component={Link} to="/settings">
-              Log in
-            </Button>
-          ) : (
-            <Button onClick={closeDialog}>Done</Button>
-          )}
+            <Button onClick={() => handleCloseDialog()}>Close</Button>
         </DialogActions>
       </Dialog>
     </Box>
