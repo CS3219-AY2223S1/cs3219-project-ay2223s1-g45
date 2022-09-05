@@ -7,8 +7,21 @@ import { Box } from '@mui/material';
 
 function App() {
   return (
-    <div className="App">
-      <Box display={'flex'} flexDirection={'column'} padding={'4rem'}>
+    <div
+      className="App"
+      style={{
+        display: 'grid',
+        gridTemplateRows: 'repeat(3, 1fr)',
+        maxHeight: '100vh'
+      }}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        padding={'4rem'}
+        alignItems={'center'}
+        style={{
+          gridRowStart: '2'
+        }}>
         <Router>
           <Routes>
             <Route /*exact*/ path="/" element={<Navigate replace to="/login" />}></Route>
