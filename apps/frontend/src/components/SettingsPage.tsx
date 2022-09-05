@@ -1,36 +1,25 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED } from '../constants';
+import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
 
-function SignupPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+  const handleLogout = async () => {
+    const res = await axios.post(`${URL_USER_SVC}/logout`).catch((err) => {
       if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('This username already exists');
+        setErrorDialog('Unable to log out');
       } else {
         setErrorDialog('Please try again later');
       }
     });
-    if (res && res.status === STATUS_CODE_CREATED) {
+    if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     } else {
       closeDialog();
@@ -51,28 +40,9 @@ function SignupPage() {
 
   return (
     <Box display={'flex'} flexDirection={'column'} width={'30%'}>
-      <Typography variant={'h3'} marginBottom={'2rem'}>
-        Sign Up
-      </Typography>
-      <TextField
-        label="Username"
-        variant="standard"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        sx={{ marginBottom: '1rem' }}
-        autoFocus
-      />
-      <TextField
-        label="Password"
-        variant="standard"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        sx={{ marginBottom: '2rem' }}
-      />
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button variant={'outlined'} onClick={handleSignup}>
-          Sign up
+        <Button variant={'outlined'} onClick={handleLogout}>
+          Log Out
         </Button>
       </Box>
 
@@ -86,4 +56,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default SettingsPage;

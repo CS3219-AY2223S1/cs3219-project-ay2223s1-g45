@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -11,10 +12,10 @@ import {
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED } from '../constants';
+import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
 
-function SignupPage() {
+function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -22,15 +23,15 @@ function SignupPage() {
   const [dialogMsg, setDialogMsg] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+  const handleLogin = async () => {
+    const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
       if (err.response.status === STATUS_CODE_CONFLICT) {
         setErrorDialog('This username already exists');
       } else {
         setErrorDialog('Please try again later');
       }
     });
-    if (res && res.status === STATUS_CODE_CREATED) {
+    if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     } else {
       closeDialog();
@@ -45,14 +46,14 @@ function SignupPage() {
     setDialogMsg(msg);
   };
 
-  const handleNavigation = () => {
-    navigate('../login');
+  const handleNavigation: () => void = () => {
+    navigate('../settings');
   };
 
   return (
     <Box display={'flex'} flexDirection={'column'} width={'30%'}>
       <Typography variant={'h3'} marginBottom={'2rem'}>
-        Sign Up
+        Log In
       </Typography>
       <TextField
         label="Username"
@@ -71,8 +72,8 @@ function SignupPage() {
         sx={{ marginBottom: '2rem' }}
       />
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button variant={'outlined'} onClick={handleSignup}>
-          Sign up
+        <Button variant={'outlined'} onClick={handleLogin}>
+          Log In
         </Button>
       </Box>
 
@@ -81,9 +82,12 @@ function SignupPage() {
         <DialogContent>
           <DialogContentText>{dialogMsg}</DialogContentText>
         </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleNavigation()}>Close</Button>
+        </DialogActions>
       </Dialog>
     </Box>
   );
 }
 
-export default SignupPage;
+export default LoginPage;
