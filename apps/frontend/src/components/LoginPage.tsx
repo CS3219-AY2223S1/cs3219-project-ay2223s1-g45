@@ -51,7 +51,7 @@ function LoginPage() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} width={'30%'}>
+    <Box display={'flex'} flexDirection={'column'} width={'100%'} alignItems={'center'}>
       <Typography variant={'h3'} marginBottom={'2rem'}>
         Log In
       </Typography>
@@ -77,7 +77,7 @@ function LoginPage() {
         </Button>
       </Box>
 
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
+      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} margin={'1%'}>
         <Link to={'../signup'}>Don't have an account? Sign Up.</Link>
       </Box>
 
