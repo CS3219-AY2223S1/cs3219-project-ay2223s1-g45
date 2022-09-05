@@ -57,8 +57,9 @@ function SignupPage() {
       alignItems={'center'}
       fontFamily={'Arimo'}
       borderRadius={'10px'}
-      padding={'10%'}
-      style={{ backgroundColor: 'white' }}>
+      padding={'5%'}
+      style={{ backgroundColor: 'white' }}
+    >
       <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
         Sign Up
       </Typography>
@@ -86,7 +87,8 @@ function SignupPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}>
+          }}
+        >
           Sign up
         </Button>
       </Box>
