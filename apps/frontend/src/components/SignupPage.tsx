@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
+  DialogActions,
   DialogTitle,
   TextField,
   Typography
@@ -11,13 +12,14 @@ import {
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED } from '../constants';
+import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED, STATUS_CODE_BAD_REQUEST } from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from './Logo';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorState, setErrorState] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
@@ -25,16 +27,17 @@ function SignupPage() {
 
   const handleSignup = async () => {
     const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+      setErrorState(true);
       if (err.response.status === STATUS_CODE_CONFLICT) {
         setErrorDialog('This username already exists');
+      } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+        setErrorDialog('Username or password is missing');
       } else {
         setErrorDialog('Please try again later');
       }
     });
     if (res && res.status === STATUS_CODE_CREATED) {
       handleNavigation();
-    } else {
-      closeDialog();
     }
   };
 
@@ -48,6 +51,10 @@ function SignupPage() {
 
   const handleNavigation = () => {
     navigate('../login');
+  };
+
+  const onCloseDialog = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -74,6 +81,8 @@ function SignupPage() {
           onChange={(e) => setUsername(e.target.value)}
           sx={{ marginBottom: '1rem', width: '75%' }}
           autoFocus
+          required
+          error={errorState}
         />
         <TextField
           label="Password"
@@ -82,6 +91,8 @@ function SignupPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           sx={{ marginBottom: '2rem', width: '75%' }}
+          required
+          error={errorState}
         />
         <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} width={'75%'}>
           <Button
@@ -109,6 +120,11 @@ function SignupPage() {
           <DialogContent>
             <DialogContentText>{dialogMsg}</DialogContentText>
           </DialogContent>
+          <DialogActions>
+            <Button onClick={() => onCloseDialog()} style={{ color: '#AC44B0' }}>
+              Close
+            </Button>
+          </DialogActions>
         </Dialog>
       </Box>
     </Box>

@@ -12,13 +12,19 @@ import {
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
+import {
+  STATUS_CODE_NOT_FOUND,
+  STATUS_CODE_OK,
+  STATUS_CODE_BAD_REQUEST,
+  STATUS_CODE_UNAUTHORISED
+} from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from './Logo';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorState, setErrorState] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
@@ -26,16 +32,19 @@ function LoginPage() {
 
   const handleLogin = async () => {
     const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
-      if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('This username already exists');
+      setErrorState(true);
+      if (err.response.status === STATUS_CODE_NOT_FOUND) {
+        setErrorDialog('Username is not registered');
+      } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+        setErrorDialog('Incorrect password');
+      } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+        setErrorDialog('Username or password is missing');
       } else {
         setErrorDialog('Please try again later');
       }
     });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
-    } else {
-      closeDialog();
     }
   };
 
@@ -49,6 +58,10 @@ function LoginPage() {
 
   const handleNavigation: () => void = () => {
     navigate('../settings');
+  };
+
+  const onCloseDialog = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -75,6 +88,8 @@ function LoginPage() {
           onChange={(e) => setUsername(e.target.value)}
           sx={{ marginBottom: '1rem', width: '75%' }}
           autoFocus
+          required
+          error={errorState}
         />
         <TextField
           label="Password"
@@ -83,6 +98,9 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           sx={{ marginBottom: '2rem', width: '75%' }}
+          autoFocus
+          required
+          error={errorState}
         />
         <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} width={'75%'}>
           <Button
@@ -111,7 +129,9 @@ function LoginPage() {
             <DialogContentText>{dialogMsg}</DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => handleNavigation()}>Close</Button>
+            <Button onClick={() => onCloseDialog()} style={{ color: '#AC44B0' }}>
+              Close
+            </Button>
           </DialogActions>
         </Dialog>
       </Box>
