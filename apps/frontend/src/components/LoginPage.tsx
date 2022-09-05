@@ -51,8 +51,16 @@ function LoginPage() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} width={'100%'} alignItems={'center'}>
-      <Typography variant={'h3'} marginBottom={'2rem'}>
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      width={'90%'}
+      alignItems={'center'}
+      fontFamily={'Arimo'}
+      borderRadius={'10px'}
+      padding={'10%'}
+      style={{ backgroundColor: 'white' }}>
+      <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
         Log In
       </Typography>
       <TextField
@@ -72,13 +80,22 @@ function LoginPage() {
         sx={{ marginBottom: '2rem' }}
       />
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button variant={'outlined'} onClick={handleLogin}>
+        <Button
+          variant={'outlined'}
+          onClick={handleLogin}
+          style={{
+            color: 'white',
+            borderColor: 'white',
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          }}>
           Log In
         </Button>
       </Box>
 
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} margin={'1%'}>
-        <Link to={'../signup'}>Don't have an account? Sign Up.</Link>
+        <Link to={'../signup'} color={'#EF429A'}>
+          Don't have an account? Sign Up.
+        </Link>
       </Box>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>

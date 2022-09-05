@@ -50,8 +50,16 @@ function SignupPage() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} width={'100%'} alignItems={'center'}>
-      <Typography variant={'h3'} marginBottom={'2rem'}>
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      width={'90%'}
+      alignItems={'center'}
+      fontFamily={'Arimo'}
+      borderRadius={'10px'}
+      padding={'10%'}
+      style={{ backgroundColor: 'white' }}>
+      <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
         Sign Up
       </Typography>
       <TextField
@@ -71,13 +79,22 @@ function SignupPage() {
         sx={{ marginBottom: '2rem' }}
       />
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button variant={'outlined'} onClick={handleSignup}>
+        <Button
+          variant={'outlined'}
+          onClick={handleSignup}
+          style={{
+            color: 'white',
+            borderColor: 'white',
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          }}>
           Sign up
         </Button>
       </Box>
 
       <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} margin={'1%'}>
-        <Link to={'../login'}>Already have an account? Log In.</Link>
+        <Link to={'../login'} color={'#EF429A'}>
+          Already have an account? Log In.
+        </Link>
       </Box>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>

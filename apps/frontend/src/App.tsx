@@ -12,7 +12,8 @@ function App() {
       style={{
         display: 'grid',
         gridTemplateRows: 'repeat(3, 1fr)',
-        maxHeight: '100vh'
+        maxHeight: '100vh',
+        background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
       }}
     >
       <Box

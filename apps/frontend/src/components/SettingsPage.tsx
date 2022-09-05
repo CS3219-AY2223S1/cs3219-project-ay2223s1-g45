@@ -4,6 +4,7 @@ import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -39,9 +40,31 @@ function SettingsPage() {
   };
 
   return (
-    <Box display={'flex'} flexDirection={'column'} width={'30%'}>
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
-        <Button variant={'outlined'} onClick={handleLogout}>
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      width={'90%'}
+      alignItems={'center'}
+      fontFamily={'Arimo'}
+      borderRadius={'10px'}
+      padding={'10%'}
+      style={{ backgroundColor: 'white' }}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'flex-end'}
+        alignItems={'center'}>
+        <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
+          Settings
+        </Typography>
+        <Button
+          variant={'outlined'}
+          onClick={handleLogout}
+          style={{
+            color: 'white',
+            borderColor: 'white',
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          }}>
           Log Out
         </Button>
       </Box>
