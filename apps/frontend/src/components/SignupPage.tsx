@@ -14,7 +14,6 @@ import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED } from '../constants';
 import { Link } from 'react-router-dom';
-import React from 'react';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
