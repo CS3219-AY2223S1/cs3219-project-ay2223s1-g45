@@ -73,7 +73,7 @@ function LoginPage() {
           variant="standard"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          sx={{ marginBottom: '1rem' }}
+          sx={{ marginBottom: '1rem', width: '75%' }}
           autoFocus
         />
         <TextField
@@ -82,9 +82,9 @@ function LoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          sx={{ marginBottom: '2rem' }}
+          sx={{ marginBottom: '2rem', width: '75%' }}
         />
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'}>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} width={'75%'}>
           <Button
             variant={'outlined'}
             onClick={handleLogin}
@@ -93,6 +93,7 @@ function LoginPage() {
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
             }}
+            fullWidth
           >
             Log In
           </Button>
