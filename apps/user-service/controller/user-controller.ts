@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import ormCreateSession from '../model/session-orm';
 import ormCreateUser from '../model/user-orm';
 import userModel from '../model/user-model';
 
@@ -60,8 +61,15 @@ export async function login(req: any, res: any) {
 }
 
 export async function logout(req: any, res: any) {
-  req.session = null;
-  return res.status(200).send({ message: "You've been logged out!" });
+  const blacklistedSession = ormCreateSession(req.session.token);
+  blacklistedSession.save((err) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    req.session = null;
+    res.status(200).send({ message: "You've been logged out!" });
+  });
 }
 
 // Dummy API to test authorization
