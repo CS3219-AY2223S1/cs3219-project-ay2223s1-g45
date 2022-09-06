@@ -32,17 +32,19 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
-      if (err.response.status === STATUS_CODE_NOT_FOUND) {
-        setErrorDialog('Username is not registered');
-      } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-        setErrorDialog('Incorrect password');
-      } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-        setErrorDialog('Username or password is missing');
-      } else {
-        setErrorDialog('Please try again later');
-      }
-    });
+    const res = await axios
+      .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
+      .catch((err) => {
+        if (err.response.status === STATUS_CODE_NOT_FOUND) {
+          setErrorDialog('Username is not registered');
+        } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+          setErrorDialog('Incorrect password');
+        } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+          setErrorDialog('Username or password is missing');
+        } else {
+          setErrorDialog('Please try again later');
+        }
+      });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     }
@@ -72,8 +74,7 @@ function LoginPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
-    >
+      style={{ backgroundColor: 'white' }}>
       <Box display={'flex'} width={'50%'}>
         <Logo />
       </Box>
@@ -130,8 +131,7 @@ function LoginPage() {
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
             }}
-            fullWidth
-          >
+            fullWidth>
             Log In
           </Button>
         </Box>
