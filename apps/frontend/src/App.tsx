@@ -4,6 +4,8 @@ import LoginPage from './components/LoginPage';
 import SettingsPage from './components/SettingsPage';
 import DifficultySelectPage from './components/DifficultySelectPage';
 import { Box } from '@mui/material';
+import NavigationBar from './components/NavigationBar';
+import { colorScheme } from './constants';
 
 function App() {
   return (
@@ -13,19 +15,20 @@ function App() {
         display: 'grid',
         gridTemplateRows: 'repeat(3, 1fr)',
         maxHeight: '100vh',
-        background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+        background: `linear-gradient(90deg, ${colorScheme.primary}, ${colorScheme.secondary})`
       }}
     >
-      <Box
-        display={'flex'}
-        flexDirection={'row'}
-        padding={'4rem'}
-        alignItems={'center'}
-        style={{
-          gridRowStart: '2'
-        }}
-      >
-        <Router>
+      <Router>
+        <NavigationBar gridRowStart={1} />
+        <Box
+          display={'flex'}
+          flexDirection={'row'}
+          padding={'4rem'}
+          alignItems={'center'}
+          style={{
+            gridRowStart: '2'
+          }}
+        >
           <Routes>
             <Route /*exact*/ path="/" element={<Navigate replace to="/login" />}></Route>
             <Route path="/signup" element={<SignupPage />} />
@@ -33,8 +36,8 @@ function App() {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/difficulty-select" element={<DifficultySelectPage />} />
           </Routes>
-        </Router>
-      </Box>
+        </Box>
+      </Router>
     </div>
   );
 }
