@@ -24,7 +24,8 @@ import { Logo } from './Logo';
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errorState, setErrorState] = useState(false);
+  const [usernameErrorState, setUsernameErrorState] = useState(false);
+  const [passwordErrorState, setPasswordErrorState] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
@@ -34,7 +35,6 @@ function LoginPage() {
     const res = await axios
       .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
       .catch((err) => {
-        setErrorState(true);
         if (err.response.status === STATUS_CODE_NOT_FOUND) {
           setErrorDialog('Username is not registered');
         } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
@@ -87,27 +87,46 @@ function LoginPage() {
           label="Username"
           variant="standard"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => {
+            setUsernameErrorState(false);
+            setUsername(e.target.value);
+          }}
           sx={{ marginBottom: '1rem', width: '75%' }}
           autoFocus
           required
-          error={errorState}
+          error={usernameErrorState}
         />
         <TextField
           label="Password"
           variant="standard"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPasswordErrorState(false);
+            setPassword(e.target.value);
+          }}
           sx={{ marginBottom: '2rem', width: '75%' }}
           autoFocus
           required
-          error={errorState}
+          error={passwordErrorState}
         />
         <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} width={'75%'}>
           <Button
             variant={'outlined'}
-            onClick={handleLogin}
+            onClick={() => {
+              if (username === '' && password === '') {
+                setUsernameErrorState(true);
+                setPasswordErrorState(true);
+                return;
+              } else if (username === '') {
+                setUsernameErrorState(true);
+                return;
+              } else if (password === '') {
+                setPasswordErrorState(true);
+                return;
+              }
+              handleLogin();
+            }}
             style={{
               color: 'white',
               borderColor: 'white',
