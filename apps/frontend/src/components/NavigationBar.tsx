@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { pages } from '../constants';
 import { Link } from 'react-router-dom';
 import { colorScheme } from '../constants';
+import { useAuth } from '../context/AuthContext';
 
 export type NavigationBarProps = {
   gridRowStart: number;
@@ -13,7 +14,8 @@ const getWidth = (numPages: number) => {
 };
 
 export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
-  return (
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? (
     <Box gridRow={gridRowStart} style={{ background: '#faf3f7' }} display="flex" height={'75px'}>
       <style>
         {`   
@@ -45,5 +47,5 @@ export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
         </Box>
       ))}
     </Box>
-  );
+  ) : null;
 }

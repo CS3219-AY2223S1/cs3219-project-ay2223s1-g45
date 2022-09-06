@@ -20,6 +20,7 @@ import {
 } from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from './Logo';
+import { useAuth } from '../context/AuthContext';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
@@ -30,6 +31,7 @@ function LoginPage() {
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async () => {
     const res = await axios
@@ -46,6 +48,7 @@ function LoginPage() {
         }
       });
     if (res && res.status === STATUS_CODE_OK) {
+      login();
       handleNavigation();
     }
   };
