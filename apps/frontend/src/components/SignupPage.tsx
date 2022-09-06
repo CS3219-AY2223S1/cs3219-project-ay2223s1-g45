@@ -65,7 +65,8 @@ function SignupPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}>
+      style={{ backgroundColor: 'white' }}
+    >
       <Box display={'flex'} width={'50%'}>
         <Logo />
       </Box>
@@ -78,8 +79,8 @@ function SignupPage() {
           variant="standard"
           value={username}
           onChange={(e) => {
-            setUsernameErrorState(false)
-            setUsername(e.target.value)
+            setUsernameErrorState(false);
+            setUsername(e.target.value);
           }}
           sx={{ marginBottom: '1rem', width: '75%' }}
           autoFocus
@@ -92,8 +93,8 @@ function SignupPage() {
           type="password"
           value={password}
           onChange={(e) => {
-            setPasswordErrorState(false)
-            setPassword(e.target.value)
+            setPasswordErrorState(false);
+            setPassword(e.target.value);
           }}
           sx={{ marginBottom: '2rem', width: '75%' }}
           required
@@ -121,7 +122,8 @@ function SignupPage() {
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
             }}
-            fullWidth>
+            fullWidth
+          >
             Sign up
           </Button>
         </Box>
