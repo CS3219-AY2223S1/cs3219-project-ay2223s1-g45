@@ -2,7 +2,7 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle } fr
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_OK } from '../constants';
+import { STATUS_CODE_INTERNAL_SERVER_ERROR, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
 
@@ -13,9 +13,26 @@ function SettingsPage() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/logout`).catch((err) => {
-      if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('Unable to log out');
+    const res = await axios
+      .post(`${URL_USER_SVC}/logout`, {}, { withCredentials: true })
+      .catch((err) => {
+        if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
+          setErrorDialog('Unable to log out');
+        } else {
+          setErrorDialog('Please try again later');
+        }
+      });
+    if (res && res.status === STATUS_CODE_OK) {
+      handleNavigation();
+    } else {
+      closeDialog();
+    }
+  };
+
+  const handleDelete = async () => {
+    const res = await axios.delete(`${URL_USER_SVC}/`, { withCredentials: true }).catch((err) => {
+      if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
+        setErrorDialog('Unable to delete');
       } else {
         setErrorDialog('Please try again later');
       }
@@ -48,14 +65,12 @@ function SettingsPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
-    >
+      style={{ backgroundColor: 'white' }}>
       <Box
         display={'flex'}
         flexDirection={'column'}
         justifyContent={'flex-end'}
-        alignItems={'center'}
-      >
+        alignItems={'center'}>
         <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
           Settings
         </Typography>
@@ -66,9 +81,18 @@ function SettingsPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}
-        >
+          }}>
           Log Out
+        </Button>
+        <Button
+          variant={'outlined'}
+          onClick={handleDelete}
+          style={{
+            color: 'white',
+            borderColor: 'white',
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          }}>
+          Delete Account
         </Button>
       </Box>
 
