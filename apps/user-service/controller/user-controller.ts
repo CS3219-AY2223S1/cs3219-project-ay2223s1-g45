@@ -24,6 +24,33 @@ export async function createUser(req: any, res: any) {
   }
 }
 
+export async function deleteUser(req: any, res: any) {
+  try {
+    const id = req.userId;
+    userModel.findByIdAndDelete(id, (err: any, docs: any) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!docs) {
+        res.status(404).send({ message: 'User Not Found!' });
+        return;
+      }
+      const blacklistedSession = ormCreateSession(req.session.token);
+      blacklistedSession.save((errSession) => {
+        if (errSession) {
+          res.status(500).send({ message: errSession });
+          return;
+        }
+        req.session = null;
+        res.status(200).send({ message: `User ${id} has been deleted!` });
+      });
+    });
+  } catch (err) {
+    res.status(500).send({ message: `Database failure when deleting user! ${err}` });
+  }
+}
+
 export async function login(req: any, res: any) {
   const { username, password } = req.body;
   if (username && password) {

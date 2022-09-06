@@ -26,7 +26,7 @@ function SignupPage() {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+    const res = await axios.post(`${URL_USER_SVC}/`, { username, password }).catch((err) => {
       setErrorState(true);
       if (err.response.status === STATUS_CODE_CONFLICT) {
         setErrorDialog('This username already exists');
@@ -65,8 +65,7 @@ function SignupPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
-    >
+      style={{ backgroundColor: 'white' }}>
       <Box display={'flex'} width={'50%'}>
         <Logo />
       </Box>
@@ -103,8 +102,7 @@ function SignupPage() {
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
             }}
-            fullWidth
-          >
+            fullWidth>
             Sign up
           </Button>
         </Box>

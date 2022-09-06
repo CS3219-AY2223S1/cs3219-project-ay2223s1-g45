@@ -5,6 +5,7 @@ const verifyToken = (req: any, res: any, next: any) => {
   const { token } = req.session;
   if (!token) {
     res.status(401).send({ message: 'Unauthenticated! No token provided!' });
+    return;
   }
   sessionModel
     .findOne({
@@ -13,9 +14,11 @@ const verifyToken = (req: any, res: any, next: any) => {
     .exec((err, tokenDb) => {
       if (err) {
         res.status(500).send({ message: err });
+        return;
       }
       if (tokenDb) {
         res.status(401).send({ message: 'Session token expired.' });
+        return;
       }
       // TODO: should use as secret environment variable
       jwt.verify(token, 'JWT_SECRET', (errJwt: any, decoded: any) => {

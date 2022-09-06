@@ -3,7 +3,7 @@ import cors from 'cors';
 import cookieSession from 'cookie-session';
 import { PathParams } from 'express-serve-static-core';
 import authJwt from './middlewares/auth-jwt';
-import { createUser, login, logout, userContent } from './controller/user-controller';
+import { createUser, login, logout, userContent, deleteUser } from './controller/user-controller';
 import verifySignUp from './middlewares/verify-signup';
 
 const app = express();
@@ -28,7 +28,8 @@ const router = express.Router();
 
 // Controller will contain all the User-defined Routes
 router.get('/', (_, res) => res.send('Hello World from user-service'));
-router.post('/signup', [verifySignUp.checkDuplicateUsername], createUser);
+router.post('/', [verifySignUp.checkDuplicateUsername], createUser);
+router.delete('/', [authJwt.verifyToken], deleteUser);
 router.post('/login', login);
 router.post('/logout', logout);
 router.get('/user-content', [authJwt.verifyToken], userContent);
