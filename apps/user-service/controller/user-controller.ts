@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import ormCreateSession from '../model/session-orm';
 import ormCreateUser from '../model/user-orm';
 import userModel from '../model/user-model';
 
@@ -20,6 +21,33 @@ export async function createUser(req: any, res: any) {
     }
   } catch (err) {
     res.status(500).send({ message: `Database failure when creating new user! ${err}` });
+  }
+}
+
+export async function deleteUser(req: any, res: any) {
+  try {
+    const id = req.userId;
+    userModel.findByIdAndDelete(id, (err: any, docs: any) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!docs) {
+        res.status(404).send({ message: 'User Not Found!' });
+        return;
+      }
+      const blacklistedSession = ormCreateSession(req.session.token);
+      blacklistedSession.save((errSession) => {
+        if (errSession) {
+          res.status(500).send({ message: errSession });
+          return;
+        }
+        req.session = null;
+        res.status(200).send({ message: `User ${id} has been deleted!` });
+      });
+    });
+  } catch (err) {
+    res.status(500).send({ message: `Database failure when deleting user! ${err}` });
   }
 }
 
@@ -60,8 +88,20 @@ export async function login(req: any, res: any) {
 }
 
 export async function logout(req: any, res: any) {
-  req.session = null;
-  return res.status(200).send({ message: "You've been logged out!" });
+  const { token } = req.session;
+  if (!token) {
+    res.status(200).send({ message: 'You are already logged out!' });
+    return;
+  }
+  const blacklistedSession = ormCreateSession(token);
+  blacklistedSession.save((err) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    req.session = null;
+    res.status(200).send({ message: "You've been logged out!" });
+  });
 }
 
 // Dummy API to test authorization

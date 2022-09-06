@@ -31,18 +31,20 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
-      setErrorState(true);
-      if (err.response.status === STATUS_CODE_NOT_FOUND) {
-        setErrorDialog('Username is not registered');
-      } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-        setErrorDialog('Incorrect password');
-      } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-        setErrorDialog('Username or password is missing');
-      } else {
-        setErrorDialog('Please try again later');
-      }
-    });
+    const res = await axios
+      .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
+      .catch((err) => {
+        setErrorState(true);
+        if (err.response.status === STATUS_CODE_NOT_FOUND) {
+          setErrorDialog('Username is not registered');
+        } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+          setErrorDialog('Incorrect password');
+        } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+          setErrorDialog('Username or password is missing');
+        } else {
+          setErrorDialog('Please try again later');
+        }
+      });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     }

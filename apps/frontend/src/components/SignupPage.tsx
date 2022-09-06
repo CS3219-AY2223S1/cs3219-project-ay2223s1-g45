@@ -26,7 +26,7 @@ function SignupPage() {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+    const res = await axios.post(`${URL_USER_SVC}/`, { username, password }).catch((err) => {
       setErrorState(true);
       if (err.response.status === STATUS_CODE_CONFLICT) {
         setErrorDialog('This username already exists');
