@@ -2,9 +2,9 @@ import {
   Box,
   Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
-  DialogActions,
   DialogTitle,
   TextField,
   Typography
@@ -12,11 +12,16 @@ import {
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import { STATUS_CODE_CONFLICT, STATUS_CODE_CREATED, STATUS_CODE_BAD_REQUEST } from '../constants';
+import {
+  STATUS_CODE_NOT_FOUND,
+  STATUS_CODE_OK,
+  STATUS_CODE_BAD_REQUEST,
+  STATUS_CODE_UNAUTHORISED
+} from '../constants';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from './Logo';
 
-function SignupPage() {
+function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorState, setErrorState] = useState(false);
@@ -25,18 +30,20 @@ function SignupPage() {
   const [dialogMsg, setDialogMsg] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/signup`, { username, password }).catch((err) => {
+  const handleLogin = async () => {
+    const res = await axios.post(`${URL_USER_SVC}/login`, { username, password }).catch((err) => {
       setErrorState(true);
-      if (err.response.status === STATUS_CODE_CONFLICT) {
-        setErrorDialog('This username already exists');
+      if (err.response.status === STATUS_CODE_NOT_FOUND) {
+        setErrorDialog('Username is not registered');
+      } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+        setErrorDialog('Incorrect password');
       } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
         setErrorDialog('Username or password is missing');
       } else {
         setErrorDialog('Please try again later');
       }
     });
-    if (res && res.status === STATUS_CODE_CREATED) {
+    if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
     }
   };
@@ -49,8 +56,8 @@ function SignupPage() {
     setDialogMsg(msg);
   };
 
-  const handleNavigation = () => {
-    navigate('../login');
+  const handleNavigation: () => void = () => {
+    navigate('../settings');
   };
 
   const onCloseDialog = () => {
@@ -72,7 +79,7 @@ function SignupPage() {
       </Box>
       <Box display={'flex'} flexDirection={'column'} width={'50%'} alignItems={'center'}>
         <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
-          Sign Up
+          Log In
         </Typography>
         <TextField
           label="Username"
@@ -91,13 +98,14 @@ function SignupPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           sx={{ marginBottom: '2rem', width: '75%' }}
+          autoFocus
           required
           error={errorState}
         />
         <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} width={'75%'}>
           <Button
             variant={'outlined'}
-            onClick={handleSignup}
+            onClick={handleLogin}
             style={{
               color: 'white',
               borderColor: 'white',
@@ -105,13 +113,13 @@ function SignupPage() {
             }}
             fullWidth
           >
-            Sign up
+            Log In
           </Button>
         </Box>
 
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} marginTop={'3%'}>
-          <Link to={'../login'} color={'#EF429A'}>
-            Already have an account? Log In.
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'flex-end'} marginTop={'2%'}>
+          <Link to={'../signup'} color={'#EF429A'}>
+            Don't have an account? Sign Up.
           </Link>
         </Box>
 
@@ -131,4 +139,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default LoginPage;
