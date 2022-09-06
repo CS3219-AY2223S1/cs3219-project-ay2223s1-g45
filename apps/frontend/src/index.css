@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Arimo';
+  src: url('../public/fonts/Arimo/Arimo-VariableFont_wght.ttf');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
