@@ -2,11 +2,7 @@ import { Box, Button, Dialog, DialogContent, DialogContentText, DialogTitle } fr
 import { useState } from 'react';
 import axios from 'axios';
 import { URL_USER_SVC } from '../configs';
-import {
-  STATUS_CODE_CONFLICT,
-  STATUS_CODE_INTERNAL_SERVER_ERROR,
-  STATUS_CODE_OK
-} from '../constants';
+import { STATUS_CODE_INTERNAL_SERVER_ERROR, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
 
