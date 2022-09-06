@@ -65,7 +65,8 @@ function SignupPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}>
+      style={{ backgroundColor: 'white' }}
+    >
       <Box display={'flex'} width={'50%'}>
         <Logo />
       </Box>
@@ -102,7 +103,8 @@ function SignupPage() {
               borderColor: 'white',
               background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
             }}
-            fullWidth>
+            fullWidth
+          >
             Sign up
           </Button>
         </Box>

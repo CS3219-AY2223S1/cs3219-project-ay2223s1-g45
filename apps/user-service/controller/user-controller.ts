@@ -88,7 +88,12 @@ export async function login(req: any, res: any) {
 }
 
 export async function logout(req: any, res: any) {
-  const blacklistedSession = ormCreateSession(req.session.token);
+  const { token } = req.session;
+  if (!token) {
+    res.status(200).send({ message: 'You are already logged out!' });
+    return;
+  }
+  const blacklistedSession = ormCreateSession(token);
   blacklistedSession.save((err) => {
     if (err) {
       res.status(500).send({ message: err });

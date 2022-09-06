@@ -36,7 +36,8 @@ router.get('/user-content', [authJwt.verifyToken], userContent);
 
 app.use('/api/user', router).all(((_: any, res: any) => {
   res.setHeader('content-type', 'application/json');
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // TODO: add prod url
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 }) as unknown as PathParams);
 
 // eslint-disable-next-line no-console
