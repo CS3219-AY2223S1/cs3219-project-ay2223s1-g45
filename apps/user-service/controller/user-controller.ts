@@ -8,7 +8,7 @@ export async function createUser(req: any, res: any) {
   try {
     const { username, password } = req.body;
     if (username && password) {
-      const newUser = ormCreateUser(username, password);
+      const newUser = await ormCreateUser(username, password);
       newUser.save((err) => {
         if (err) {
           res.status(500).send({ message: err });
@@ -27,7 +27,7 @@ export async function createUser(req: any, res: any) {
 export async function deleteUser(req: any, res: any) {
   try {
     const id = req.userId;
-    userModel.findByIdAndDelete(id, (err: any, docs: any) => {
+    userModel.findByIdAndDelete(id, async (err: any, docs: any) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
@@ -36,7 +36,7 @@ export async function deleteUser(req: any, res: any) {
         res.status(404).send({ message: 'User Not Found!' });
         return;
       }
-      const blacklistedSession = ormCreateSession(req.session.token);
+      const blacklistedSession = await ormCreateSession(req.session.token);
       blacklistedSession.save((errSession) => {
         if (errSession) {
           res.status(500).send({ message: errSession });
@@ -93,7 +93,7 @@ export async function logout(req: any, res: any) {
     res.status(200).send({ message: 'You are already logged out!' });
     return;
   }
-  const blacklistedSession = ormCreateSession(token);
+  const blacklistedSession = await ormCreateSession(token);
   blacklistedSession.save((err) => {
     if (err) {
       res.status(500).send({ message: err });
@@ -108,7 +108,9 @@ export async function changePassword(req: any, res: any) {
   try {
     const id = req.userId;
     const newPassword = req.body.password;
-    const passwordHash = bcryptjs.hashSync(newPassword, 8);
+    const saltRounds = 10;
+    const salt = await bcryptjs.genSalt(saltRounds);
+    const passwordHash = await bcryptjs.hash(newPassword, salt);
     userModel.findByIdAndUpdate(id, { password: passwordHash }, (err: any, docs: any) => {
       if (err) {
         res.status(500).send({ message: err });

@@ -11,10 +11,10 @@ const db = mongoose.connection;
 // eslint-disable-next-line no-console
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-export function createUser(params: any) {
+export async function createUser(params: any) {
   return new UserModel(params);
 }
 
-export function createSession(params: any) {
+export async function createSession(params: any) {
   return new SessionModel(params);
 }
