@@ -104,6 +104,27 @@ export async function logout(req: any, res: any) {
   });
 }
 
+export async function changePassword(req: any, res: any) {
+  try {
+    const id = req.userId;
+    const newPassword = req.body.password;
+    const passwordHash = bcryptjs.hashSync(newPassword, 8);
+    userModel.findByIdAndUpdate(id, { password: passwordHash }, (err: any, docs: any) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
+      }
+      if (!docs) {
+        res.status(404).send({ message: 'User Not Found!' });
+        return;
+      }
+      res.status(200).send({ message: `Password for user ${id} has been updated!` });
+    });
+  } catch (err) {
+    res.status(500).send({ message: `Database failure when deleting user! ${err}` });
+  }
+}
+
 // Dummy API to test authorization
 export async function userContent(req: any, res: any) {
   res.status(200).send({ userId: req.userId, message: 'User content' });
