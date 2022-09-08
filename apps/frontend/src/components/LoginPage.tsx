@@ -48,7 +48,9 @@ function LoginPage() {
         }
       });
     if (res && res.status === STATUS_CODE_OK) {
-      login();
+      login({
+        username: res.data.username
+      });
       handleNavigation();
     }
   };

@@ -4,11 +4,10 @@ type AuthContextProps = {
   children: JSX.Element;
 };
 
-// type User = {
-//     username: string;
-// } | {}
+type User = {
+  username: string;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AuthContext = createContext<any>({});
 
 export function useAuth() {
@@ -16,20 +15,24 @@ export function useAuth() {
 }
 
 export default function AuthProvider({ children }: AuthContextProps) {
-  // const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = () => {
+  const login = (user: User) => {
+    setCurrentUser({
+      username: user.username
+    });
     setIsAuthenticated(true);
   };
 
   const logout = () => {
+    setCurrentUser({});
     setIsAuthenticated(false);
   };
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
-    // currentUser,
+    currentUser,
     login,
     logout,
     isAuthenticated
