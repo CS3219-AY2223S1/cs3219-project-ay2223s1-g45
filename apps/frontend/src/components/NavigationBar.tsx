@@ -36,6 +36,11 @@ export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
           <Link
             to={`.${page.route}`}
             style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height:'100%',
               fontFamily: 'Arimo',
               fontSize: '1.5rem',
               textDecoration: 'none',
