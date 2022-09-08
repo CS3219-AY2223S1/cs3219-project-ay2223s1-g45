@@ -42,6 +42,7 @@ function SettingsPage() {
     });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
+      logout();
     } else {
       closeDialog();
     }
