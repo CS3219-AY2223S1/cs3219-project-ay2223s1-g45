@@ -18,6 +18,7 @@ import {
 } from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -26,6 +27,7 @@ function SettingsPage() {
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordErrorState, setNewPasswordErrorState] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     const res = await axios
@@ -39,6 +41,7 @@ function SettingsPage() {
       });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
+      logout();
     }
   };
 
@@ -56,6 +59,7 @@ function SettingsPage() {
     });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
+      logout();
     }
   };
 
