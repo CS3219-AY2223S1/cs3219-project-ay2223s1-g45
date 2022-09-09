@@ -8,7 +8,9 @@ import {
   Typography
 } from '@mui/material';
 import { useState } from 'react';
-import React from 'react';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8001');
 
 const DIFFICULTY = {
   EASY: 'Easy',
@@ -19,13 +21,14 @@ const DIFFICULTY = {
 function DifficultySelectPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTY.EASY);
 
-  const handleDifficultyLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDifficulty((event.target as HTMLInputElement).value);
+  const matchUser = () => {
+    console.log(`Selected difficulty ${difficulty}`);
+    socket.emit('select-difficulty', { difficulty: difficulty.toLowerCase() });
   };
 
-  const matchUser = () => {
-    console.log('Matching User: ' + difficulty);
-  };
+  socket.on('match-found', (matchedId: string) => {
+    console.log(`My id: ${socket.id}, partner id: ${matchedId}`);
+  });
 
   return (
     <Box display={'flex'} flexDirection={'column'} width={'30%'}>
@@ -37,7 +40,7 @@ function DifficultySelectPage() {
           defaultValue={DIFFICULTY.EASY}
           value={difficulty}
           name="radio-buttons-group"
-          onChange={handleDifficultyLevelChange}
+          onChange={(e) => setDifficulty(e.target.value)}
         >
           <FormControlLabel value={DIFFICULTY.EASY} control={<Radio />} label={DIFFICULTY.EASY} />
           <FormControlLabel
