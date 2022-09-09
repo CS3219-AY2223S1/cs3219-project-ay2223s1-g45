@@ -123,7 +123,7 @@ export async function changePassword(req: any, res: any) {
       res.status(200).send({ message: `Password for user ${id} has been updated!` });
     });
   } catch (err) {
-    res.status(500).send({ message: `Database failure when deleting user! ${err}` });
+    res.status(500).send({ message: `Database failure when changing password! ${err}` });
   }
 }
 
