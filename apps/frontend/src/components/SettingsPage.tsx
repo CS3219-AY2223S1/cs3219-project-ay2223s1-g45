@@ -5,12 +5,14 @@ import { URL_USER_SVC } from '../configs';
 import { STATUS_CODE_INTERNAL_SERVER_ERROR, STATUS_CODE_OK } from '../constants';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     const res = await axios
@@ -24,6 +26,7 @@ function SettingsPage() {
       });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
+      logout();
     } else {
       closeDialog();
     }
@@ -39,6 +42,7 @@ function SettingsPage() {
     });
     if (res && res.status === STATUS_CODE_OK) {
       handleNavigation();
+      logout();
     } else {
       closeDialog();
     }
