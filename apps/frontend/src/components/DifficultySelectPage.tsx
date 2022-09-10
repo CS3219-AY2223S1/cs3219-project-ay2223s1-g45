@@ -14,6 +14,7 @@ import {
 import { useState } from 'react';
 import io from 'socket.io-client';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { useNavigate } from 'react-router-dom';
 
 const socket = io('http://localhost:8001');
 
@@ -26,6 +27,7 @@ const DIFFICULTY = {
 function DifficultySelectPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTY.EASY);
   const [isMatching, setIsMatching] = useState(false);
+  const navigate = useNavigate();
 
   const matchUser = () => {
     setIsMatching(true);
@@ -36,6 +38,7 @@ function DifficultySelectPage() {
   socket.on('match-found', (matchedId: string) => {
     console.log(`My id: ${socket.id}, partner id: ${matchedId}`);
     setIsMatching(false);
+    navigate('../lobby');
   });
 
   return (
