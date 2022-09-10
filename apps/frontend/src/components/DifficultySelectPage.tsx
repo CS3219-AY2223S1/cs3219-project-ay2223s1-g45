@@ -32,13 +32,28 @@ function DifficultySelectPage() {
   const matchUser = () => {
     setIsMatching(true);
     console.log(`Selected difficulty ${difficulty}`);
-    socket.emit('select-difficulty', { difficulty: difficulty.toLowerCase() });
+    socket.emit('find-match', { difficulty: difficulty.toLowerCase() });
+  };
+
+  const onCancel = () => {
+    setIsMatching(false);
+    socket.emit('cancel-match');
+  };
+
+  const onNoMatchFound = () => {
+    setIsMatching(false);
+    socket.emit('no-match-found');
   };
 
   socket.on('match-found', (matchedId: string) => {
     console.log(`My id: ${socket.id}, partner id: ${matchedId}`);
     setIsMatching(false);
     navigate('../lobby');
+  });
+
+  socket.on('server-no-match-found', () => {
+    // TODO: "Handle the scenario where there is a failed match."
+    console.log('No match found');
   });
 
   return (
@@ -66,7 +81,7 @@ function DifficultySelectPage() {
         Match
       </Button>
 
-      <Dialog open={isMatching} onClose={() => setIsMatching(false)}>
+      <Dialog open={isMatching} onClose={onCancel}>
         <DialogTitle>Matching User</DialogTitle>
         <DialogContent>
           <CountdownCircleTimer
@@ -74,13 +89,13 @@ function DifficultySelectPage() {
             duration={30}
             colors={['#004777', '#F7B801', '#A30000', '#A30000']}
             colorsTime={[25, 15, 5, 0]}
-            // onComplete={() => setIsMatching(false)}
+            onComplete={onNoMatchFound}
           >
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setIsMatching(false)} style={{ color: '#AC44B0' }}>
+          <Button onClick={onCancel} style={{ color: '#AC44B0' }}>
             Cancel
           </Button>
         </DialogActions>

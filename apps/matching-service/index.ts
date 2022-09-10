@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
   // If there is another user queueing for the same difficulty then they are matched and added to
   // MatchingPair table. The matched user is then removed from the QueueingUser table.
   // Otherwise adds the client to the QueueingUser table.
-  socket.on('select-difficulty', async (data) => {
+  socket.on('find-match', async (data) => {
     // TypeScript support for Sequelize isn't very good yet
     const matchedUser: any = await QueueingUser.findOne({
       where: { difficulty: data.difficulty, [Op.not]: { socketId: socket.id } }
@@ -71,6 +71,17 @@ io.on('connection', (socket) => {
     } else {
       QueueingUser.create({ socketId: socket.id, difficulty: data.difficulty });
     }
+  });
+
+  // Delete the queueing user
+  socket.on('cancel-match', async () => {
+    QueueingUser.destroy({ where: { socketId: socket.id } });
+  });
+
+  // Delete the queueing user if no match found and emit a new event for frontend to handle
+  socket.on('no-match-found', async () => {
+    QueueingUser.destroy({ where: { socketId: socket.id } });
+    io.to(socket.id).emit('server-no-match-found');
   });
 });
 
