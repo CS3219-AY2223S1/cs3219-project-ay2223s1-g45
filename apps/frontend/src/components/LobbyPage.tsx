@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 
-function LoginPage() {
+function LobbyPage() {
   return <Box>Empty Page</Box>;
 }
 
-export default LoginPage;
+export default LobbyPage;
