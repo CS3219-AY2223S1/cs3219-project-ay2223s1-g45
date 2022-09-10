@@ -28,9 +28,9 @@ function DifficultySelectPage() {
   const [isMatching, setIsMatching] = useState(false);
 
   const matchUser = () => {
+    setIsMatching(true);
     console.log(`Selected difficulty ${difficulty}`);
     socket.emit('select-difficulty', { difficulty: difficulty.toLowerCase() });
-    setIsMatching(true);
   };
 
   socket.on('match-found', (matchedId: string) => {
@@ -71,6 +71,7 @@ function DifficultySelectPage() {
             duration={30}
             colors={['#004777', '#F7B801', '#A30000', '#A30000']}
             colorsTime={[25, 15, 5, 0]}
+            // onComplete={() => setIsMatching(false)}
           >
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
