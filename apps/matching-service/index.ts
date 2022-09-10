@@ -1,6 +1,7 @@
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { Sequelize, DataTypes, Op } from 'sequelize';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -15,30 +16,61 @@ const io = new Server(httpServer, {
   }
 });
 
-const matchingPool: { easy: string[]; medium: string[]; hard: string[] } = {
-  easy: [],
-  medium: [],
-  hard: []
-};
-const matchingPairs: [string, string][] = [];
+const sequelize = new Sequelize('sqlite::memory:');
+
+const QueueingUser = sequelize.define('QueueingUser', {
+  socketId: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  difficulty: {
+    type: DataTypes.ENUM('easy', 'medium', 'hard'),
+    allowNull: false
+  }
+});
+QueueingUser.sync();
+
+const MatchingPair = sequelize.define('MatchingPair', {
+  socketId1: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  socketId2: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  difficulty: {
+    type: DataTypes.ENUM('easy', 'medium', 'hard'),
+    allowNull: false
+  }
+});
+MatchingPair.sync();
 
 io.on('connection', (socket) => {
-  // Client emits this event on clicking "Match" button. Matches the client with a user queueing
-  // for the same difficulty, or adds the client to the queue if it is empty
-  socket.on('select-difficulty', (data: { difficulty: 'easy' | 'medium' | 'hard' }) => {
-    const queue = matchingPool[data.difficulty];
-    if (queue.length > 0) {
-      const matchedId = queue.shift()!;
-      matchingPairs.push([socket.id, matchedId]);
-      // Emit event to the matching pairs
-      io.to(matchedId).emit('match-found', socket.id);
-      io.to(socket.id).emit('match-found', matchedId);
-    } else {
-      queue.push(socket.id);
-    }
+  // Client emits this event on clicking "Match" button.
+  // If there is another user queueing for the same difficulty then they are matched and added to
+  // MatchingPair table. The matched user is then removed from the QueueingUser table.
+  // Otherwise adds the client to the QueueingUser table.
+  socket.on('select-difficulty', async (data) => {
+    // TypeScript support for Sequelize isn't very good yet
+    const matchedUser: any = await QueueingUser.findOne({
+      where: { difficulty: data.difficulty, [Op.not]: { socketId: socket.id } }
+    });
+    if (matchedUser !== null) {
+      io.to(matchedUser.socketId).emit('match-found', socket.id);
+      io.to(socket.id).emit('match-found', matchedUser.socketId);
 
-    console.log(`matching pool:  ${JSON.stringify(matchingPool)}`);
-    console.log(`matching pairs:  ${matchingPairs}`);
+      MatchingPair.create({
+        socketId1: socket.id,
+        socketId2: matchedUser.socketId,
+        difficulty: data.difficulty
+      });
+
+      // Only the matched user is in DB
+      matchedUser.destroy();
+    } else {
+      QueueingUser.create({ socketId: socket.id, difficulty: data.difficulty });
+    }
   });
 });
 
