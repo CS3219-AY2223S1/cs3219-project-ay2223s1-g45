@@ -3,6 +3,7 @@ import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
 import SettingsPage from './components/SettingsPage';
 import DifficultySelectPage from './components/DifficultySelectPage';
+import LobbyPage from './components/LobbyPage';
 import { Box } from '@mui/material';
 import NavigationBar from './components/NavigationBar';
 import { colorScheme } from './constants';
@@ -37,6 +38,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/difficulty-select" element={<DifficultySelectPage />} />
+              <Route path="/lobby" element={<LobbyPage />} />
             </Routes>
           </Box>
         </Router>
