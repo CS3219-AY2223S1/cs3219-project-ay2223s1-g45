@@ -27,6 +27,7 @@ const DIFFICULTY = {
 function DifficultySelectPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTY.EASY);
   const [isMatching, setIsMatching] = useState(false);
+  const [wasMatchNotFound, setWasNotMatchFound] = useState(false);
   const navigate = useNavigate();
 
   const matchUser = () => {
@@ -35,7 +36,7 @@ function DifficultySelectPage() {
     socket.emit('find-match', { difficulty: difficulty.toLowerCase() });
   };
 
-  const onCancel = () => {
+  const onCancelMatching = () => {
     setIsMatching(false);
     socket.emit('cancel-match');
   };
@@ -52,7 +53,7 @@ function DifficultySelectPage() {
   });
 
   socket.on('server-no-match-found', () => {
-    // TODO: "Handle the scenario where there is a failed match."
+    setWasNotMatchFound(true);
     console.log('No match found');
   });
 
@@ -81,7 +82,7 @@ function DifficultySelectPage() {
         Match
       </Button>
 
-      <Dialog open={isMatching} onClose={onCancel}>
+      <Dialog open={isMatching} onClose={onCancelMatching}>
         <DialogTitle>Matching User</DialogTitle>
         <DialogContent>
           <CountdownCircleTimer
@@ -95,8 +96,17 @@ function DifficultySelectPage() {
           </CountdownCircleTimer>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onCancel} style={{ color: '#AC44B0' }}>
+          <Button onClick={onCancelMatching} style={{ color: '#AC44B0' }}>
             Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={wasMatchNotFound} onClose={() => setWasNotMatchFound(false)}>
+        <DialogTitle>No Match Found</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setWasNotMatchFound(false)} style={{ color: '#AC44B0' }}>
+            OK
           </Button>
         </DialogActions>
       </Dialog>
