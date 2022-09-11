@@ -46,10 +46,11 @@ function DifficultySelectPage() {
     socket.emit('no-match-found');
   };
 
-  socket.on('match-found', (matchedId: string) => {
-    console.log(`My id: ${socket.id}, partner id: ${matchedId}`);
+  socket.on('match-found', (concatenatedIds: string) => {
+    console.log(`Concatenated IDs: ${concatenatedIds}`);
     setIsMatching(false);
-    navigate('../lobby');
+    // Pass unique ID to be used as a socket room for chat messages
+    navigate('../lobby', { state: { chatRoomId: concatenatedIds } });
   });
 
   socket.on('server-no-match-found', () => {

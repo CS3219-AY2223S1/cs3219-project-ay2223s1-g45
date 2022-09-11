@@ -57,8 +57,9 @@ io.on('connection', (socket) => {
       where: { difficulty: data.difficulty, [Op.not]: { socketId: socket.id } }
     });
     if (matchedUser !== null) {
-      io.to(matchedUser.socketId).emit('match-found', socket.id);
-      io.to(socket.id).emit('match-found', matchedUser.socketId);
+      const concatenatedIds = `${socket.id}%${matchedUser.socketId}`;
+      io.to(matchedUser.socketId).emit('match-found', concatenatedIds);
+      io.to(socket.id).emit('match-found', concatenatedIds);
 
       MatchingPair.create({
         socketId1: socket.id,
