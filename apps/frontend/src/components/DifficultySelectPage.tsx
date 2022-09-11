@@ -49,8 +49,8 @@ function DifficultySelectPage() {
   socket.on('match-found', (concatenatedIds: string) => {
     console.log(`Concatenated IDs: ${concatenatedIds}`);
     setIsMatching(false);
-    // Pass unique ID to be used as a socket room for chat messages
-    navigate('../lobby', { state: { chatRoomId: concatenatedIds } });
+    // Pass unique ID to be used as a socket room for collaboration and chat messages
+    navigate('../lobby', { state: { roomId: concatenatedIds } });
   });
 
   socket.on('server-no-match-found', () => {
