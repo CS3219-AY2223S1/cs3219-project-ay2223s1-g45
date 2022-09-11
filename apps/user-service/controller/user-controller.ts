@@ -79,6 +79,7 @@ export async function login(req: any, res: any) {
         req.session.token = token;
         res.status(200).send({
           username: user.username,
+          id: user.id,
           message: "You've been logged in!"
         });
       });
