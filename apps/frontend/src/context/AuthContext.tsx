@@ -6,6 +6,7 @@ type AuthContextProps = {
 
 type User = {
   username: string;
+  id: string;
 };
 
 const AuthContext = createContext<any>({});
@@ -20,7 +21,8 @@ export default function AuthProvider({ children }: AuthContextProps) {
 
   const login = (user: User) => {
     setCurrentUser({
-      username: user.username
+      username: user.username,
+      id: user.id
     });
     setIsAuthenticated(true);
   };
