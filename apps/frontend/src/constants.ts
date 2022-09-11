@@ -14,6 +14,10 @@ export const pages = [
   {
     name: 'Settings',
     route: '/settings'
+  },
+  {
+    name: 'Lobby',
+    route: '/lobby'
   }
 ];
 export const colorScheme = {

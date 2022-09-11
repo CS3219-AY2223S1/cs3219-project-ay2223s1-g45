@@ -1,6 +1,10 @@
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControl,
   FormControlLabel,
   Radio,
@@ -8,7 +12,11 @@ import {
   Typography
 } from '@mui/material';
 import { useState } from 'react';
-import React from 'react';
+import io from 'socket.io-client';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { useNavigate } from 'react-router-dom';
+
+const socket = io('http://localhost:8001');
 
 const DIFFICULTY = {
   EASY: 'Easy',
@@ -18,14 +26,36 @@ const DIFFICULTY = {
 
 function DifficultySelectPage() {
   const [difficulty, setDifficulty] = useState(DIFFICULTY.EASY);
-
-  const handleDifficultyLevelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDifficulty((event.target as HTMLInputElement).value);
-  };
+  const [isMatching, setIsMatching] = useState(false);
+  const [wasMatchNotFound, setWasNotMatchFound] = useState(false);
+  const navigate = useNavigate();
 
   const matchUser = () => {
-    console.log('Matching User: ' + difficulty);
+    setIsMatching(true);
+    console.log(`Selected difficulty ${difficulty}`);
+    socket.emit('find-match', { difficulty: difficulty.toLowerCase() });
   };
+
+  const onCancelMatching = () => {
+    setIsMatching(false);
+    socket.emit('cancel-match');
+  };
+
+  const onNoMatchFound = () => {
+    setIsMatching(false);
+    socket.emit('no-match-found');
+  };
+
+  socket.on('match-found', (matchedId: string) => {
+    console.log(`My id: ${socket.id}, partner id: ${matchedId}`);
+    setIsMatching(false);
+    navigate('../lobby');
+  });
+
+  socket.on('server-no-match-found', () => {
+    setWasNotMatchFound(true);
+    console.log('No match found');
+  });
 
   return (
     <Box display={'flex'} flexDirection={'column'} width={'30%'}>
@@ -37,7 +67,7 @@ function DifficultySelectPage() {
           defaultValue={DIFFICULTY.EASY}
           value={difficulty}
           name="radio-buttons-group"
-          onChange={handleDifficultyLevelChange}
+          onChange={(e) => setDifficulty(e.target.value)}
         >
           <FormControlLabel value={DIFFICULTY.EASY} control={<Radio />} label={DIFFICULTY.EASY} />
           <FormControlLabel
@@ -51,6 +81,35 @@ function DifficultySelectPage() {
       <Button variant="contained" onClick={matchUser}>
         Match
       </Button>
+
+      <Dialog open={isMatching} onClose={onCancelMatching}>
+        <DialogTitle>Matching User</DialogTitle>
+        <DialogContent>
+          <CountdownCircleTimer
+            isPlaying={isMatching}
+            duration={30}
+            colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+            colorsTime={[25, 15, 5, 0]}
+            onComplete={onNoMatchFound}
+          >
+            {({ remainingTime }) => remainingTime}
+          </CountdownCircleTimer>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onCancelMatching} style={{ color: '#AC44B0' }}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={wasMatchNotFound} onClose={() => setWasNotMatchFound(false)}>
+        <DialogTitle>No Match Found</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setWasNotMatchFound(false)} style={{ color: '#AC44B0' }}>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
