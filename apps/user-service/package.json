@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npm i && tsc",
-    "dev:ts": "tsc -w",
+    "dev:ts": "npm i && tsc -w",
     "dev:js": "nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
     "dev": "concurrently npm:dev:*",
     "start": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/index.js"
