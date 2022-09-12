@@ -25,6 +25,7 @@
   },
   "scripts": {
     "start": "npm i && react-scripts start",
+    "dev": "npm i && react-scripts start",
     "build": "npm i && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

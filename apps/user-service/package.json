@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "npm i && tsc",
-    "dev": "npm run build && nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
+    "dev:ts": "tsc -w",
+    "dev:js": "nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
+    "dev": "concurrently npm:dev:*",
     "start": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/index.js"
   },
   "keywords": [],
@@ -18,7 +20,9 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.9",
-    "nodemon": "^2.0.19"
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
