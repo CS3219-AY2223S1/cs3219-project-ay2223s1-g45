@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
-import SettingsPage from './components/SettingsPage';
-import DifficultySelectPage from './components/DifficultySelectPage';
 import LobbyPage from './components/LobbyPage';
+import SettingsPage from './components/SettingsPage';
+import DifficultySelectPage from './components/MatchPage';
 import { Box } from '@mui/material';
 import NavigationBar from './components/NavigationBar';
 import { colorScheme } from './constants';
@@ -14,7 +14,7 @@ function AuthenticatedRoutes() {
     <Routes>
       <Route /*exact*/ path="/" element={<Navigate replace to="/settings" />}></Route>
       <Route path="/settings" element={<SettingsPage />} />
-      <Route path="/difficulty-select" element={<DifficultySelectPage />} />
+      <Route path="/match" element={<DifficultySelectPage />} />
       <Route path="/lobby" element={<LobbyPage />} />
       <Route path="*" element={<Navigate replace to="/settings" />} />
     </Routes>
@@ -62,7 +62,8 @@ function App() {
           display: 'grid',
           gridTemplateRows: 'repeat(3, 1fr)',
           maxHeight: '100vh',
-          background: `linear-gradient(90deg, ${colorScheme.primary}, ${colorScheme.secondary})`
+          background: `linear-gradient(90deg, ${colorScheme.primary}, ${colorScheme.secondary})`,
+          overflowY: 'auto'
         }}
       >
         <RouterContainer />
