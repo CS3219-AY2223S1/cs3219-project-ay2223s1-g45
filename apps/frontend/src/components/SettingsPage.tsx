@@ -113,12 +113,14 @@ function SettingsPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}>
+      style={{ backgroundColor: 'white' }}
+    >
       <Box
         display={'flex'}
         flexDirection={'column'}
         justifyContent={'flex-end'}
-        alignItems={'center'}>
+        alignItems={'center'}
+      >
         <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
           Settings
         </Typography>
@@ -149,7 +151,8 @@ function SettingsPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}>
+          }}
+        >
           Change Password
         </Button>
         <Button
@@ -159,7 +162,8 @@ function SettingsPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}>
+          }}
+        >
           Log Out
         </Button>
         <Button
@@ -169,7 +173,8 @@ function SettingsPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}>
+          }}
+        >
           Delete Account
         </Button>
       </Box>
