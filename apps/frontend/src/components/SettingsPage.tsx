@@ -22,6 +22,10 @@ import { useAuth } from '../context/AuthContext';
 
 function SettingsPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogButtonEnabled, setIsDialogButtonEnabled] = useState(false);
+  const [isDialogInputEnabled, setIsDialogInputEnabled] = useState(false);
+  const [dialogButtonMessage, setDialogButtonMessage] = useState('');
+  const [buttonMode, setButtonMode] = useState('');
   const [dialogTitle, setDialogTitle] = useState('');
   const [dialogMsg, setDialogMsg] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -86,7 +90,11 @@ function SettingsPage() {
     }
   };
 
-  const closeDialog = () => setIsDialogOpen(false);
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    setDialogButtonMessage('');
+    setDialogTitle('');
+  };
 
   const setErrorDialog = (msg: any) => {
     setIsDialogOpen(true);
@@ -98,6 +106,24 @@ function SettingsPage() {
     setIsDialogOpen(true);
     setDialogTitle('Success');
     setDialogMsg(msg);
+  };
+
+  const setChangePasswordConfirmationDialog = (msg: string) => {
+    setIsDialogOpen(true);
+    setButtonMode('changePassword');
+    setIsDialogInputEnabled(true);
+    setIsDialogButtonEnabled(true);
+    setDialogButtonMessage(msg);
+    setDialogTitle(msg);
+  };
+
+  const setDeleteConfirmationDialog = (msg: any) => {
+    setIsDialogOpen(true);
+    setButtonMode('deleteAccount');
+    setIsDialogInputEnabled(false);
+    setIsDialogButtonEnabled(true);
+    setDialogTitle('Delete Account');
+    setDialogButtonMessage(msg);
   };
 
   const handleNavigation = () => {
@@ -124,28 +150,11 @@ function SettingsPage() {
         <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
           Settings
         </Typography>
-        <TextField
-          label="New Password"
-          variant="standard"
-          type="password"
-          value={newPassword}
-          onChange={(e) => {
-            setNewPasswordErrorState(false);
-            setNewPassword(e.target.value);
-          }}
-          sx={{ marginBottom: '1rem', width: '75%' }}
-          autoFocus
-          required
-          error={newPasswordErrorState}
-        />
         <Button
           variant={'outlined'}
           onClick={() => {
-            if (newPassword === '') {
-              setNewPasswordErrorState(true);
-              return;
-            }
-            handleChangePassword();
+            setChangePasswordConfirmationDialog('Change Password');
+            setSuccessDialog('');
           }}
           style={{
             color: 'white',
@@ -168,7 +177,7 @@ function SettingsPage() {
         </Button>
         <Button
           variant={'outlined'}
-          onClick={handleDelete}
+          onClick={() => setDeleteConfirmationDialog('Delete Account')}
           style={{
             color: 'white',
             borderColor: 'white',
@@ -183,6 +192,49 @@ function SettingsPage() {
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
           <DialogContentText>{dialogMsg}</DialogContentText>
+          {isDialogButtonEnabled ? (
+            <Box>
+              {isDialogInputEnabled ? (
+                <TextField
+                  label="New Password"
+                  variant="standard"
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => {
+                    setNewPasswordErrorState(false);
+                    setNewPassword(e.target.value);
+                  }}
+                  sx={{ marginBottom: '1rem', width: '75%' }}
+                  autoFocus
+                  required
+                  error={newPasswordErrorState}
+                />
+              ) : null}
+              <Button
+                onClick={
+                  buttonMode === 'changePassword'
+                    ? () => {
+                        if (newPassword === '') {
+                          setNewPasswordErrorState(true);
+                          return;
+                        }
+                        handleChangePassword();
+                        setIsDialogButtonEnabled(false);
+                        setButtonMode('');
+                        closeDialog();
+                      }
+                    : () => {
+                        handleDelete();
+                        setIsDialogButtonEnabled(false);
+                        setButtonMode('');
+                        closeDialog();
+                      }
+                }
+              >
+                {dialogButtonMessage}
+              </Button>
+            </Box>
+          ) : null}
         </DialogContent>
       </Dialog>
     </Box>
