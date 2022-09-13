@@ -16,7 +16,7 @@ function AuthenticatedRoutes() {
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/difficulty-select" element={<DifficultySelectPage />} />
       <Route path="/lobby" element={<LobbyPage />} />
-      <Route path="*" element={<Navigate replace to="/settings"/>} />
+      <Route path="*" element={<Navigate replace to="/settings" />} />
     </Routes>
   );
 }
@@ -27,7 +27,7 @@ function UnauthenticatedRoutes() {
       <Route /*exact*/ path="/" element={<Navigate replace to="/login" />}></Route>
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="*" element={<Navigate replace to="/login"/>} />
+      <Route path="*" element={<Navigate replace to="/login" />} />
     </Routes>
   );
 }
@@ -45,7 +45,8 @@ function RouterContainer() {
         alignItems={'center'}
         style={{
           gridRowStart: '2'
-        }}>
+        }}
+      >
         {isAuthenticated ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
       </Box>
     </Router>
@@ -62,7 +63,8 @@ function App() {
           gridTemplateRows: 'repeat(3, 1fr)',
           maxHeight: '100vh',
           background: `linear-gradient(90deg, ${colorScheme.primary}, ${colorScheme.secondary})`
-        }}>
+        }}
+      >
         <RouterContainer />
       </div>
     </AuthContext>

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import { useSessionStorage } from 'usehooks-ts';
 
 type AuthContextProps = {
   children: JSX.Element;
@@ -17,7 +18,7 @@ export function useAuth() {
 
 export default function AuthProvider({ children }: AuthContextProps) {
   const [currentUser, setCurrentUser] = useState({});
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useSessionStorage('authStatus', false);
 
   const login = (user: User) => {
     setCurrentUser({
