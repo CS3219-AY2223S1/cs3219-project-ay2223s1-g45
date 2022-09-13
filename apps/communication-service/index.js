@@ -16,12 +16,16 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('join-chat-room', (chatRoomId) => {
-    socket.join(chatRoomId);
+  socket.on('join-lobby', (roomId) => {
+    socket.join(roomId);
+  });
+
+  socket.on('send-coding-pad-input', (data) => {
+    io.to(data.roomId).emit('receive-coding-pad-input', data.codingPadInput);
   });
 
   socket.on('send-chat-message', (data) => {
-    io.to(data.chatRoomId).emit('receive-chat-message', data.message);
+    io.to(data.roomId).emit('receive-chat-message', data.message);
   });
 });
 
