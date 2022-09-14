@@ -16,7 +16,3 @@ export const pages = [
     route: '/settings'
   }
 ];
-export const colorScheme = {
-  primary: '#AC44B0',
-  secondary: '#EF429A'
-};
