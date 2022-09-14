@@ -3,15 +3,14 @@ import { Link } from 'react-router-dom';
 
 export type FormProps = {
   title: string;
-  fields: Array<TextFieldProps & { autoFocus: boolean }>;
+  fields: Array<TextFieldProps & { autoFocus: boolean } & { onChange: (event: any) => void }>;
   link: {
     path: string;
     message: string;
   };
 };
 
-export function Form({ title, fields, link }: FormProps) {
-
+export function Form({ title, fields, link}: FormProps) {
   return (
     <Box
       display={'flex'}

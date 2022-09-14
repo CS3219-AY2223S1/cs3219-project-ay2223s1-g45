@@ -46,7 +46,8 @@ function RouterContainer() {
         alignItems={'center'}
         style={{
           gridRowStart: '2'
-        }}>
+        }}
+      >
         {isAuthenticated ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
       </Box>
     </Router>
@@ -62,7 +63,8 @@ function App() {
           display={'grid'}
           height={'100vh'}
           gridTemplateRows={'1fr auto 1fr'}
-          sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}>
+          sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
+        >
           <RouterContainer />
         </Box>
       </AuthContext>

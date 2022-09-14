@@ -1,8 +1,12 @@
 import { Box } from '@mui/material';
 import { Logo } from './Logo';
 import { Form } from './Form';
+import { useState } from 'react';
 
 export default function LoginPage2() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <Box
       className="Login"
@@ -24,8 +28,24 @@ export default function LoginPage2() {
       <Form
         title={'Log In'}
         fields={[
-          { label: 'Username', variant: 'standard', required: true, autoFocus: true },
-          { label: 'Password', variant: 'standard', required: true, autoFocus: false }
+          {
+            label: 'Username',
+            variant: 'standard',
+            required: true,
+            autoFocus: true,
+            onChange: (event) => {
+              setUsername(event.target.value);
+            }
+          },
+          {
+            label: 'Password',
+            variant: 'standard',
+            required: true,
+            autoFocus: false,
+            onChange: (event) => {
+              setPassword(event.target.value);
+            }
+          }
         ]}
         link={{ path: '/signup', message: "Don't have an account? Sign Up." }}
       />
