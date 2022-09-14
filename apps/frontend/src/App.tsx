@@ -46,11 +46,25 @@ function RouterContainer() {
         alignItems={'center'}
         style={{
           gridRowStart: '2'
-        }}
-      >
+        }}>
         {isAuthenticated ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
       </Box>
     </Router>
+  );
+}
+
+function AppContainer() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Box
+      className="App"
+      display={'grid'}
+      height={'100vh'}
+      gridTemplateRows={isAuthenticated ? 'auto 90%' : 'auto'}
+      sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}>
+      <RouterContainer />
+    </Box>
   );
 }
 
@@ -58,15 +72,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthContext>
-        <Box
-          className="App"
-          display={'grid'}
-          height={'100vh'}
-          gridTemplateRows={'1fr auto 1fr'}
-          sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
-        >
-          <RouterContainer />
-        </Box>
+        <AppContainer />
       </AuthContext>
     </ThemeProvider>
   );

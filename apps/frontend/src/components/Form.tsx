@@ -8,9 +8,10 @@ export type FormProps = {
     path: string;
     message: string;
   };
+  onSubmit: () => void;
 };
 
-export function Form({ title, fields, link}: FormProps) {
+export function Form({ title, fields, link, onSubmit }: FormProps) {
   return (
     <Box
       display={'flex'}
@@ -26,7 +27,10 @@ export function Form({ title, fields, link}: FormProps) {
           <TextField key={index} {...field} />
         ))}
       </Box>
-      <Button color={'primary'} sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}>
+      <Button
+        color={'primary'}
+        sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
+        onClick={onSubmit}>
         {title}
       </Button>
       <Link to={link.path} color={'#EF429A'} style={{ marginTop: '3%' }}>

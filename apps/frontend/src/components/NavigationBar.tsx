@@ -15,11 +15,10 @@ const getWidth = (numPages: number) => {
 
 export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? (
+  return isAuthenticated && (
     <Box
       style={{ background: '#faf3f7', gridRowStart: gridRowStart }}
       display="flex"
-      height={'75px'}
     >
       <style>
         {`   
@@ -56,5 +55,5 @@ export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
         </Box>
       ))}
     </Box>
-  ) : null;
+  )
 }
