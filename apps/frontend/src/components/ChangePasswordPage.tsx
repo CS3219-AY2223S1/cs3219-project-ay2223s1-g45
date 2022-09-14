@@ -40,18 +40,20 @@ export default function ChangePassword() {
         { withCredentials: true }
       )
       .catch((err) => {
+        setDialogOpen(true);
         if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-          console.log('Unable to change password');
+          setDialogDetails({ message: 'Unable to change password', error: true });
         } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-          console.log('Not Authenticated. Please log in again.');
+          setDialogDetails({ message: 'Not Authenticated. Please log in again.', error: true });
         } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
-          console.log('Unauthorised Action. Please log in again.');
+          setDialogDetails({ message: 'Unauthorised Action. Please log in again.', error: true });
         } else {
-          console.log('Please try again later');
+          setDialogDetails({ message: 'Please try again later', error: true });
         }
       });
     if (res && res.status === STATUS_CODE_OK) {
-      console.log('Password changed successfully');
+      setDialogOpen(true);
+      setDialogDetails({ message: 'Password changed successfully', error: false });
     }
   };
 
@@ -64,15 +66,13 @@ export default function ChangePassword() {
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      display={'flex'}
-    >
+      display={'flex'}>
       <Box
         display={'flex'}
         width={'50%'}
         className="Logo"
         justifyContent={'center'}
-        alignItems={'center'}
-      >
+        alignItems={'center'}>
         <Logo />
       </Box>
       <Form
@@ -89,7 +89,7 @@ export default function ChangePassword() {
             }
           }
         ]}
-        link={{ path: '/settings', message: "Don't want to change your password? Go back." }}
+        link={{ path: '/settings', message: "Back to settings" }}
         onSubmit={handleChangePassword}
         onCloseDialog={onCloseDialog}
         dialogOpen={dialogOpen}
