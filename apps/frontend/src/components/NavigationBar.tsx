@@ -1,7 +1,6 @@
 import { Box } from '@mui/material';
 import { pages } from '../constants';
 import { Link } from 'react-router-dom';
-import { colorScheme } from '../constants';
 import { useAuth } from '../context/AuthContext';
 
 export type NavigationBarProps = {
@@ -45,7 +44,7 @@ export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
                 fontFamily: 'Arimo',
                 fontSize: '1.5rem',
                 textDecoration: 'none',
-                color: `${colorScheme.primary}`
+                color: 'secondary'
               }}
             >
               {page.name}
