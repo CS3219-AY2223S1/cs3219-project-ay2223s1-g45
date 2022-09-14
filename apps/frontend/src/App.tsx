@@ -13,7 +13,7 @@ import { theme } from './styles/Theme';
 function AuthenticatedRoutes() {
   return (
     <Routes>
-      <Route /*exact*/ path="/" element={<Navigate replace to="/settings" />}></Route>
+      <Route path="/" element={<Navigate replace to="/settings" />}></Route>
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/match" element={<DifficultySelectPage />} />
       <Route path="/lobby" element={<LobbyPage />} />
@@ -25,7 +25,7 @@ function AuthenticatedRoutes() {
 function UnauthenticatedRoutes() {
   return (
     <Routes>
-      <Route /*exact*/ path="/" element={<Navigate replace to="/login" />}></Route>
+      <Route path="/" element={<Navigate replace to="/login" />}></Route>
       <Route path="/signup" element={<SignupPage2 />} />
       <Route path="/login" element={<LoginPage2 />} />
       <Route path="*" element={<Navigate replace to="/login" />} />
@@ -46,7 +46,8 @@ function RouterContainer() {
         alignItems={'center'}
         style={{
           gridRowStart: '2'
-        }}>
+        }}
+      >
         {isAuthenticated ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
       </Box>
     </Router>
@@ -62,7 +63,8 @@ function AppContainer() {
       display={'grid'}
       height={'100vh'}
       gridTemplateRows={isAuthenticated ? 'auto 90%' : 'auto'}
-      sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}>
+      sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
+    >
       <RouterContainer />
     </Box>
   );

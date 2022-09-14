@@ -1,5 +1,21 @@
-import { Box, Typography, TextField, TextFieldProps, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  TextField,
+  TextFieldProps,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material';
 import { Link } from 'react-router-dom';
+
+export type DialogDetails = {
+  title?: string;
+  message: string;
+  error?: boolean
+}
 
 export type FormProps = {
   title: string;
@@ -9,9 +25,12 @@ export type FormProps = {
     message: string;
   };
   onSubmit: () => void;
+  onCloseDialog: () => void;
+  dialogOpen: boolean;
+  dialogDetails: DialogDetails;
 };
 
-export function Form({ title, fields, link, onSubmit }: FormProps) {
+export function Form({ title, fields, link, onSubmit, dialogOpen, onCloseDialog, dialogDetails }: FormProps) {
   return (
     <Box
       display={'flex'}
@@ -36,6 +55,12 @@ export function Form({ title, fields, link, onSubmit }: FormProps) {
       <Link to={link.path} color={'#EF429A'} style={{ marginTop: '3%' }}>
         {link.message}
       </Link>
+      <Dialog open={dialogOpen} onClose={onCloseDialog}>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogDetails.message}</DialogContentText>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 }

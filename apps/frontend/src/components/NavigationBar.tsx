@@ -15,45 +15,44 @@ const getWidth = (numPages: number) => {
 
 export default function NavigationBar({ gridRowStart }: NavigationBarProps) {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated && (
-    <Box
-      style={{ background: '#faf3f7', gridRowStart: gridRowStart }}
-      display="flex"
-    >
-      <style>
-        {`   
+  return (
+    isAuthenticated && (
+      <Box style={{ background: '#faf3f7', gridRowStart: gridRowStart }} display="flex">
+        <style>
+          {`   
             .navBarItem:hover {
                 background: linear-gradient(90deg, #f0d8e5, white);
             }
         `}
-      </style>
-      {pages.map((page, index) => (
-        <Box
-          key={index}
-          width={getWidth(numPages)}
-          display={'flex'}
-          justifyContent={'center'}
-          alignItems={'center'}
-          className={'navBarItem'}
-        >
-          <Link
-            to={`.${page.route}`}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-              fontFamily: 'Arimo',
-              fontSize: '1.5rem',
-              textDecoration: 'none',
-              color: `${colorScheme.primary}`
-            }}
+        </style>
+        {pages.map((page, index) => (
+          <Box
+            key={index}
+            width={getWidth(numPages)}
+            display={'flex'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            className={'navBarItem'}
           >
-            {page.name}
-          </Link>
-        </Box>
-      ))}
-    </Box>
-  )
+            <Link
+              to={`.${page.route}`}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100%',
+                fontFamily: 'Arimo',
+                fontSize: '1.5rem',
+                textDecoration: 'none',
+                color: `${colorScheme.primary}`
+              }}
+            >
+              {page.name}
+            </Link>
+          </Box>
+        ))}
+      </Box>
+    )
+  );
 }

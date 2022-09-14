@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { Logo } from './Logo';
-import { Form } from './Form';
+import { DialogDetails, Form } from './Form';
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
@@ -16,6 +16,11 @@ import { useNavigate } from 'react-router-dom';
 export default function LoginPage2() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogDetails, setDialogDetails] = useState({
+    title: '',
+    message: ''
+  } as DialogDetails);
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -23,14 +28,15 @@ export default function LoginPage2() {
     const res = await axios
       .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
       .catch((err) => {
+        setDialogOpen(true);
         if (err.response.status === STATUS_CODE_NOT_FOUND) {
-          console.log('Username is not registered');
+          setDialogDetails({ message: 'Username is not registered', error: true });
         } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-          console.log('Incorrect password');
+          setDialogDetails({ message: 'Incorrect password', error: true });
         } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-          console.log('Username or password is missing');
+          setDialogDetails({ message: 'Username or password is missing', error: true });
         } else {
-          console.log('Please try again later');
+          setDialogDetails({ message: 'Please try again later', error: true });
         }
       });
     if (res && res.status === STATUS_CODE_OK) {
@@ -40,6 +46,18 @@ export default function LoginPage2() {
       });
       navigate('../settings');
     }
+  };
+
+  const onCloseDialog = () => {
+    setDialogOpen(false);
+    resetDialog();
+  };
+
+  const resetDialog = () => {
+    setDialogDetails({
+      title: '',
+      message: ''
+    } as DialogDetails);
   };
 
   return (
@@ -84,6 +102,9 @@ export default function LoginPage2() {
         ]}
         link={{ path: '/signup', message: "Don't have an account? Sign Up." }}
         onSubmit={handleLogin}
+        onCloseDialog={onCloseDialog}
+        dialogOpen={dialogOpen}
+        dialogDetails={dialogDetails}
       />
     </Box>
   );

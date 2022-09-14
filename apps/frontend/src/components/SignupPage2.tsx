@@ -1,34 +1,48 @@
 import { Box } from '@mui/material';
 import { Logo } from './Logo';
-import { Form } from './Form';
+import { DialogDetails, Form } from './Form';
 import { useState } from 'react';
 import axios from 'axios';
-import {
-  STATUS_CODE_CONFLICT,
-  STATUS_CODE_BAD_REQUEST,
-  STATUS_CODE_CREATED,
-} from '../constants';
+import { STATUS_CODE_CONFLICT, STATUS_CODE_BAD_REQUEST, STATUS_CODE_CREATED } from '../constants';
 import { URL_USER_SVC } from '../configs';
 import { useNavigate } from 'react-router-dom';
 
 export default function SignupPage2() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogDetails, setDialogDetails] = useState({
+    title: '',
+    message: ''
+  } as DialogDetails);
   const navigate = useNavigate();
 
   const handleSignup = async () => {
     const res = await axios.post(`${URL_USER_SVC}/`, { username, password }).catch((err) => {
+      setDialogOpen(true);
       if (err.response.status === STATUS_CODE_CONFLICT) {
-        console.log('This username already exists');
+        setDialogDetails({ message: 'This username already exists', error: true });
       } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-        console.log('Username or password is missing');
+        setDialogDetails({ message: 'Username or password is missing', error: true });
       } else {
-        console.log('Please try again later');
+        setDialogDetails({ message: 'Please try again later', error: true });
       }
     });
     if (res && res.status === STATUS_CODE_CREATED) {
       navigate('../login');
     }
+  };
+
+  const onCloseDialog = () => {
+    setDialogOpen(false);
+    resetDialog();
+  };
+
+  const resetDialog = () => {
+    setDialogDetails({
+      title: '',
+      message: ''
+    } as DialogDetails);
   };
 
   return (
@@ -40,15 +54,13 @@ export default function SignupPage2() {
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      display={'flex'}
-    >
+      display={'flex'}>
       <Box
         display={'flex'}
         width={'50%'}
         className="Logo"
         justifyContent={'center'}
-        alignItems={'center'}
-      >
+        alignItems={'center'}>
         <Logo />
       </Box>
       <Form
@@ -75,6 +87,9 @@ export default function SignupPage2() {
         ]}
         link={{ path: '/login', message: 'Already have an account? Log In.' }}
         onSubmit={handleSignup}
+        onCloseDialog={onCloseDialog}
+        dialogOpen={dialogOpen}
+        dialogDetails={dialogDetails}
       />
     </Box>
   );
