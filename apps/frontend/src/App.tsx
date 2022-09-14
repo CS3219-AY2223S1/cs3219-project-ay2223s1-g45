@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import SignupPage2 from './components/SignupPage';
-import LoginPage2 from './components/LoginPage';
+import SignupPage from './components/SignupPage';
+import LoginPage from './components/LoginPage';
 import LobbyPage from './components/LobbyPage';
 import SettingsPage from './components/SettingsPage';
 import DifficultySelectPage from './components/MatchPage';
@@ -28,8 +28,8 @@ function UnauthenticatedRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Navigate replace to="/login" />}></Route>
-      <Route path="/signup" element={<SignupPage2 />} />
-      <Route path="/login" element={<LoginPage2 />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<Navigate replace to="/login" />} />
     </Routes>
   );

@@ -7,7 +7,7 @@ import { STATUS_CODE_CONFLICT, STATUS_CODE_BAD_REQUEST, STATUS_CODE_CREATED } fr
 import { URL_USER_SVC } from '../configs';
 import { useNavigate } from 'react-router-dom';
 
-export default function SignupPage2() {
+export default function SignupPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
