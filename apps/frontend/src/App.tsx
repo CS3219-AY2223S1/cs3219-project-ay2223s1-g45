@@ -44,8 +44,9 @@ function RouterContainer() {
       <Box
         display={'flex'}
         flexDirection={'row'}
-        padding={'4rem'}
+        margin={'4rem'}
         alignItems={'center'}
+        alignSelf={'center'}
         style={{
           gridRowStart: '2'
         }}
@@ -65,6 +66,7 @@ function AppContainer() {
       display={'grid'}
       height={'100vh'}
       gridTemplateRows={isAuthenticated ? 'auto 90%' : 'auto'}
+      overflow={'hidden'}
       sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
     >
       <RouterContainer />
