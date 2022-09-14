@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import SignupPage2 from './components/SignupPage2';
-import LoginPage2 from './components/LoginPage2';
+import SignupPage2 from './components/SignupPage';
+import LoginPage2 from './components/LoginPage';
 import LobbyPage from './components/LobbyPage';
 import SettingsPage from './components/SettingsPage';
 import DifficultySelectPage from './components/MatchPage';
