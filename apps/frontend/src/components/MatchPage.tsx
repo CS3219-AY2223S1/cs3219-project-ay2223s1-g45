@@ -61,23 +61,35 @@ function DifficultySelectPage() {
 
   return (
     <Box
-      display={'flex'}
-      flexDirection={'row'}
-      width={'90%'}
-      alignItems={'center'}
-      fontFamily={'Arimo'}
+      className="Settings"
+      width="90%"
+      height="90%"
+      bgcolor={'primary.main'}
+      gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
+      display={'flex'}
     >
-      <Box display={'flex'} width={'50%'}>
+      <Box
+        display={'flex'}
+        width={'50%'}
+        className="Logo"
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
         <Logo />
       </Box>
-      <Box display={'flex'} flexDirection={'column'} width={'50%'} alignItems={'center'}>
-        <Typography variant={'h3'} marginBottom={'2rem'} width={'85%'} textAlign={'center'}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        width={'50%'}
+      >
+        <Typography variant={'h3'} marginBottom={'2rem'} width={'75%'} textAlign={'center'}>
           Select Difficulty
         </Typography>
-        <FormControl sx={{ width: '85%', paddingBottom: '2rem' }}>
+        <FormControl sx={{ width: '75%', paddingBottom: '2rem' }}>
           <RadioGroup
             defaultValue={DIFFICULTY.EASY}
             value={difficulty}
@@ -88,19 +100,19 @@ function DifficultySelectPage() {
               value={DIFFICULTY.EASY}
               control={<Radio />}
               label={DIFFICULTY.EASY}
-              sx={{ width: '85%' }}
+              sx={{ width: '75%' }}
             />
             <FormControlLabel
               value={DIFFICULTY.MEDIUM}
               control={<Radio />}
               label={DIFFICULTY.MEDIUM}
-              sx={{ width: '85%' }}
+              sx={{ width: '75%' }}
             />
             <FormControlLabel
               value={DIFFICULTY.HARD}
               control={<Radio />}
               label={DIFFICULTY.HARD}
-              sx={{ width: '85%' }}
+              sx={{ width: '75%' }}
             />
           </RadioGroup>
         </FormControl>
@@ -111,7 +123,7 @@ function DifficultySelectPage() {
             color: 'white',
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
-            width: '85%'
+            width: '75%'
           }}
         >
           Match
