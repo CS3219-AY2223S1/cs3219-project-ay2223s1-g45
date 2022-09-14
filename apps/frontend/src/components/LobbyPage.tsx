@@ -1,7 +1,19 @@
-import { Box, Button, Input, List, ListItem, TextareaAutosize } from '@mui/material';
+import {
+  Box,
+  Button,
+  Input,
+  List,
+  ListItem,
+  TextareaAutosize,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
+import type { DialogDetails } from './Form';
 
 const socket = io('http://localhost:8002');
 
@@ -9,8 +21,34 @@ function LobbyPage() {
   const [codingPadInput, setCodingPadInput] = useState('');
   const [chatMessageInput, setChatMessageInput] = useState('');
   const [allChatMessages, setAllChatMessages] = useState<string[]>([]);
-
+  const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
+  const [dialogDetails, setDialogDetails] = useState({
+    title: '',
+    message: ''
+  } as DialogDetails);
+
+  const onCloseDialog = () => {
+    setDialogOpen(false);
+    resetDialog();
+  };
+
+  const resetDialog = () => {
+    setDialogDetails({
+      title: '',
+      message: ''
+    } as DialogDetails);
+  };
+
+  const confirmBack = () => {
+    setDialogDetails({ message: 'Are you sure you want to leave the session?', button: true });
+    setDialogOpen(true);
+  };
+
+  const handleBack = () => {
+    navigate('../match');
+  };
+
   const locationState = useLocation().state as { roomId: string };
   const roomId = locationState.roomId;
   socket.emit('join-lobby', roomId);
@@ -39,7 +77,7 @@ function LobbyPage() {
       display={'flex'}
       flexDirection={'row'}
       width={'90%'}
-      height={'60vh'}
+      height={'90%'}
       alignItems={'center'}
       fontFamily={'Arimo'}
       borderRadius={'10px'}
@@ -47,9 +85,9 @@ function LobbyPage() {
       style={{ backgroundColor: 'white' }}
     >
       <Box display={'flex'} flexDirection={'column'} padding={'5px'} width={'35%'} height={'100%'}>
-        <Box display={'flex'} flexDirection={'column'} width={'85%'} height={'90%'}>
+        <Box display={'flex'} flexDirection={'column'} width={'85%'} height={'100%'}>
           <h3 style={{ fontFamily: 'Arimo' }}>Chat</h3>
-          <List sx={{ height: '90%', overflowY: 'auto' }}>
+          <List sx={{ height: '100%', overflowY: 'auto' }}>
             {allChatMessages.map((chatMessage, i) => {
               return (
                 <ListItem key={i} style={{ paddingLeft: '2px' }}>
@@ -63,23 +101,28 @@ function LobbyPage() {
             onChange={(e) => {
               setChatMessageInput(e.target.value);
             }}
+            sx={{ margin: '0.5rem' }}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                onSendMessage();
+              }
+            }}
           />
-          <Button onClick={onSendMessage} style={{ color: '#AC44B0' }}>
+          <Button
+            onClick={onSendMessage}
+            color={'primary'}
+            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
+          >
             Send
           </Button>
+          <Button
+            onClick={confirmBack}
+            color={'primary'}
+            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
+          >
+            Back
+          </Button>
         </Box>
-        <Button
-          variant="contained"
-          onClick={() => navigate('../match')}
-          style={{
-            width: '85%',
-            color: 'white',
-            borderColor: 'white',
-            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
-          }}
-        >
-          Back
-        </Button>
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'100%'}>
@@ -94,6 +137,40 @@ function LobbyPage() {
           }
         />
       </Box>
+      <Dialog open={dialogOpen} onClose={onCloseDialog}>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogDetails.message}</DialogContentText>
+        </DialogContent>
+        {dialogDetails.button && (
+          <Box display={'flex'} justifyContent={'center'}>
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={handleBack}
+              sx={{
+                background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={onCloseDialog}
+              sx={{
+                background: 'linear-gradient(90deg, #EF429A, #AC44B0)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              No
+            </Button>
+          </Box>
+        )}
+      </Dialog>
     </Box>
   );
 }

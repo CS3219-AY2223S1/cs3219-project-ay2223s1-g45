@@ -44,7 +44,7 @@ export default function LoginPage2() {
         username: res.data.username,
         id: res.data.id
       });
-      navigate('../settings');
+      navigate('../match');
     }
   };
 

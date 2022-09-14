@@ -14,12 +14,12 @@ import ChangePassword from './components/ChangePasswordPage';
 function AuthenticatedRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate replace to="/settings" />} />
+      <Route path="/" element={<Navigate replace to="/match" />} />
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/match" element={<DifficultySelectPage />} />
       <Route path="/lobby" element={<LobbyPage />} />
       <Route path="/change-password" element={<ChangePassword />} />
-      <Route path="*" element={<Navigate replace to="/settings" />} />
+      <Route path="*" element={<Navigate replace to="/match" />} />
     </Routes>
   );
 }
