@@ -15,6 +15,7 @@ export type DialogDetails = {
   title?: string;
   message: string;
   error?: boolean;
+  button?: boolean;
 };
 
 export type FormProps = {

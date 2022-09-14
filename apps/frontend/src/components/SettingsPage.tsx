@@ -1,4 +1,12 @@
-import { Box, Button, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from '@mui/material';
 import { Logo } from './Logo';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,10 +18,29 @@ import {
   STATUS_CODE_OK,
   STATUS_CODE_UNAUTHORISED
 } from '../constants';
+import type { DialogDetails } from './Form';
+import { useState } from 'react';
 
 export default function SettingsPage() {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogDetails, setDialogDetails] = useState({
+    title: '',
+    message: ''
+  } as DialogDetails);
+
+  const onCloseDialog = () => {
+    setDialogOpen(false);
+    resetDialog();
+  };
+
+  const resetDialog = () => {
+    setDialogDetails({
+      title: '',
+      message: ''
+    } as DialogDetails);
+  };
 
   const handleLogout = async () => {
     const res = await axios
@@ -31,16 +58,23 @@ export default function SettingsPage() {
     }
   };
 
+  const confirmDelete = () => {
+    setDialogDetails({ message: 'Are you sure you want to delete your account?', button: true });
+    setDialogOpen(true);
+  };
+
   const handleDelete = async () => {
+    onCloseDialog();
     const res = await axios.delete(`${URL_USER_SVC}/`, { withCredentials: true }).catch((err) => {
+      setDialogOpen(true);
       if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-        console.log('Unable to delete');
+        setDialogDetails({ message: 'Unable to delete', error: true });
       } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-        console.log('Not Authenticated. Please log in again.');
+        setDialogDetails({ message: 'Not Authenticated. Please log in again.', error: true });
       } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
-        console.log('Unauthorised Action. Please log in again.');
+        setDialogDetails({ message: 'Unauthorised Action. Please log in again.', error: true });
       } else {
-        console.log('Please try again later');
+        setDialogDetails({ message: 'Please try again later', error: true });
       }
     });
     if (res && res.status === STATUS_CODE_OK) {
@@ -110,7 +144,7 @@ export default function SettingsPage() {
         <Button
           variant={'outlined'}
           color={'primary'}
-          onClick={handleDelete}
+          onClick={confirmDelete}
           sx={{
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
             margin: '0.5rem',
@@ -120,6 +154,40 @@ export default function SettingsPage() {
           Delete Account
         </Button>
       </Box>
+      <Dialog open={dialogOpen} onClose={onCloseDialog}>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogDetails.message}</DialogContentText>
+        </DialogContent>
+        {dialogDetails.button && (
+          <Box display={'flex'} justifyContent={'center'}>
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={handleDelete}
+              sx={{
+                background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              variant={'outlined'}
+              color={'primary'}
+              onClick={onCloseDialog}
+              sx={{
+                background: 'linear-gradient(90deg, #EF429A, #AC44B0)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              No
+            </Button>
+          </Box>
+        )}
+      </Dialog>
     </Box>
   );
 }

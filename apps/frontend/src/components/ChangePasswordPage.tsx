@@ -66,13 +66,15 @@ export default function ChangePassword() {
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      display={'flex'}>
+      display={'flex'}
+    >
       <Box
         display={'flex'}
         width={'50%'}
         className="Logo"
         justifyContent={'center'}
-        alignItems={'center'}>
+        alignItems={'center'}
+      >
         <Logo />
       </Box>
       <Form
@@ -89,7 +91,7 @@ export default function ChangePassword() {
             }
           }
         ]}
-        link={{ path: '/settings', message: "Back to settings" }}
+        link={{ path: '/settings', message: 'Back to settings' }}
         onSubmit={handleChangePassword}
         onCloseDialog={onCloseDialog}
         dialogOpen={dialogOpen}
