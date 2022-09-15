@@ -5,7 +5,7 @@ import SessionModel from './session-model';
 
 const mongoDB = process.env.ENV === 'PROD' ? process.env.DB_CLOUD_URI : process.env.DB_LOCAL_URI;
 
-mongoose.connect(mongoDB as string, { useNewUrlParser: true, useUnifiedTopology: true } as any);
+mongoose.connect(mongoDB as string);
 
 const db = mongoose.connection;
 // eslint-disable-next-line no-console
