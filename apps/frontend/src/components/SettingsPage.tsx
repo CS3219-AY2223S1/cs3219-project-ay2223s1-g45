@@ -92,7 +92,7 @@ export default function SettingsPage() {
       className="Settings"
       width="90%"
       height="90%"
-      bgcolor={'primary.main'}
+      bgcolor={'primary.light'}
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
@@ -119,7 +119,7 @@ export default function SettingsPage() {
         </Typography>
         <Button
           variant={'outlined'}
-          color={'primary'}
+          color={'secondary'}
           onClick={handleChangePassword}
           sx={{
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
@@ -131,7 +131,7 @@ export default function SettingsPage() {
         </Button>
         <Button
           variant={'outlined'}
-          color={'primary'}
+          color={'secondary'}
           onClick={handleLogout}
           sx={{
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
@@ -143,7 +143,7 @@ export default function SettingsPage() {
         </Button>
         <Button
           variant={'outlined'}
-          color={'primary'}
+          color={'secondary'}
           onClick={confirmDelete}
           sx={{
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
@@ -163,7 +163,7 @@ export default function SettingsPage() {
           <Box display={'flex'} justifyContent={'center'}>
             <Button
               variant={'outlined'}
-              color={'primary'}
+              color={'secondary'}
               onClick={handleDelete}
               sx={{
                 background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
@@ -175,7 +175,7 @@ export default function SettingsPage() {
             </Button>
             <Button
               variant={'outlined'}
-              color={'primary'}
+              color={'secondary'}
               onClick={onCloseDialog}
               sx={{
                 background: 'linear-gradient(90deg, #EF429A, #AC44B0)',

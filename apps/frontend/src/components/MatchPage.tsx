@@ -64,7 +64,7 @@ function DifficultySelectPage() {
       className="Settings"
       width="90%"
       height="90%"
-      bgcolor={'primary.main'}
+      bgcolor={'primary.light'}
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}

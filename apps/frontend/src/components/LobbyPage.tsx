@@ -116,14 +116,14 @@ function LobbyPage() {
           />
           <Button
             onClick={onSendMessage}
-            color={'primary'}
+            color={'secondary'}
             style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
           >
             Send
           </Button>
           <Button
             onClick={confirmBack}
-            color={'primary'}
+            color={'secondary'}
             style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
           >
             Back
@@ -152,7 +152,7 @@ function LobbyPage() {
           <Box display={'flex'} justifyContent={'center'}>
             <Button
               variant={'outlined'}
-              color={'primary'}
+              color={'secondary'}
               onClick={handleBack}
               sx={{
                 background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
@@ -164,7 +164,7 @@ function LobbyPage() {
             </Button>
             <Button
               variant={'outlined'}
-              color={'primary'}
+              color={'secondary'}
               onClick={onCloseDialog}
               sx={{
                 background: 'linear-gradient(90deg, #EF429A, #AC44B0)',
