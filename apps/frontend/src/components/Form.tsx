@@ -58,7 +58,7 @@ export function Form({
       </Box>
       <Button
         color={'secondary'}
-        sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
+        sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', width: '75%' }}
         onClick={onSubmit}
       >
         {title}
