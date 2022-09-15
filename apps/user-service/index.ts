@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import cookieSession from 'cookie-session';
 import { PathParams } from 'express-serve-static-core';
@@ -31,6 +31,28 @@ app.use(
   })
 );
 
+// add type declarations
+declare global {
+  namespace Express {
+    interface Request {
+      session?: CookieSessionInterfaces.CookieSessionOptions;
+      userId?: string;
+    }
+  }
+}
+declare global {
+  namespace CookieSessionInterfaces {
+    interface CookieSessionOptions {
+      token?: string;
+    }
+  }
+}
+declare global {
+  interface JwtPayload {
+    id: string;
+  }
+}
+
 const router = express.Router();
 
 // Controller will contain all the User-defined Routes
@@ -42,7 +64,7 @@ router.post('/logout', logout);
 router.patch('/change-password', [authJwt.verifyToken], changePassword);
 router.get('/user-content', [authJwt.verifyToken], userContent);
 
-app.use('/api/user', router).all(((_: any, res: any) => {
+app.use('/api/user', router).all(((_: Request, res: Response) => {
   res.setHeader('content-type', 'application/json');
   // TODO: add prod url
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');

@@ -1,6 +1,7 @@
+import { NextFunction, Request, Response } from 'express';
 import userModel from '../model/user-model';
 
-const checkDuplicateUsername = (req: { body: { username: any } }, res: any, next: any) => {
+const checkDuplicateUsername = (req: Request, res: Response, next: NextFunction) => {
   userModel
     .findOne({
       username: req.body.username
