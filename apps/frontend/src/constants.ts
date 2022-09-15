@@ -8,19 +8,11 @@ export const STATUS_CODE_CONFLICT = 409;
 export const STATUS_CODE_INTERNAL_SERVER_ERROR = 500;
 export const pages = [
   {
-    name: 'Select Difficulty',
-    route: '/difficulty-select'
+    name: 'Match',
+    route: '/match'
   },
   {
     name: 'Settings',
     route: '/settings'
-  },
-  {
-    name: 'Lobby',
-    route: '/lobby'
   }
 ];
-export const colorScheme = {
-  primary: '#AC44B0',
-  secondary: '#EF429A'
-};

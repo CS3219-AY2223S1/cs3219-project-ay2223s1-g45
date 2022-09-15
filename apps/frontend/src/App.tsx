@@ -1,22 +1,25 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignupPage from './components/SignupPage';
 import LoginPage from './components/LoginPage';
-import SettingsPage from './components/SettingsPage';
-import DifficultySelectPage from './components/DifficultySelectPage';
 import LobbyPage from './components/LobbyPage';
+import SettingsPage from './components/SettingsPage';
+import DifficultySelectPage from './components/MatchPage';
 import { Box } from '@mui/material';
 import NavigationBar from './components/NavigationBar';
-import { colorScheme } from './constants';
 import AuthContext, { useAuth } from './context/AuthContext';
+import { ThemeProvider } from '@mui/material';
+import { theme } from './styles/Theme';
+import ChangePassword from './components/ChangePasswordPage';
 
 function AuthenticatedRoutes() {
   return (
     <Routes>
-      <Route /*exact*/ path="/" element={<Navigate replace to="/settings" />}></Route>
+      <Route path="/" element={<Navigate replace to="/match" />} />
       <Route path="/settings" element={<SettingsPage />} />
-      <Route path="/difficulty-select" element={<DifficultySelectPage />} />
+      <Route path="/match" element={<DifficultySelectPage />} />
       <Route path="/lobby" element={<LobbyPage />} />
-      <Route path="*" element={<Navigate replace to="/settings" />} />
+      <Route path="/change-password" element={<ChangePassword />} />
+      <Route path="*" element={<Navigate replace to="/match" />} />
     </Routes>
   );
 }
@@ -24,7 +27,7 @@ function AuthenticatedRoutes() {
 function UnauthenticatedRoutes() {
   return (
     <Routes>
-      <Route /*exact*/ path="/" element={<Navigate replace to="/login" />}></Route>
+      <Route path="/" element={<Navigate replace to="/login" />}></Route>
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<Navigate replace to="/login" />} />
@@ -41,8 +44,9 @@ function RouterContainer() {
       <Box
         display={'flex'}
         flexDirection={'row'}
-        padding={'4rem'}
+        margin={'4rem'}
         alignItems={'center'}
+        alignSelf={'center'}
         style={{
           gridRowStart: '2'
         }}
@@ -53,21 +57,30 @@ function RouterContainer() {
   );
 }
 
+function AppContainer() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Box
+      className="App"
+      display={'grid'}
+      height={'100vh'}
+      gridTemplateRows={isAuthenticated ? 'auto 90%' : 'auto'}
+      overflow={'hidden'}
+      sx={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)' }}
+    >
+      <RouterContainer />
+    </Box>
+  );
+}
+
 function App() {
   return (
-    <AuthContext>
-      <div
-        className="App"
-        style={{
-          display: 'grid',
-          gridTemplateRows: 'repeat(3, 1fr)',
-          maxHeight: '100vh',
-          background: `linear-gradient(90deg, ${colorScheme.primary}, ${colorScheme.secondary})`
-        }}
-      >
-        <RouterContainer />
-      </div>
-    </AuthContext>
+    <ThemeProvider theme={theme}>
+      <AuthContext>
+        <AppContainer />
+      </AuthContext>
+    </ThemeProvider>
   );
 }
 
