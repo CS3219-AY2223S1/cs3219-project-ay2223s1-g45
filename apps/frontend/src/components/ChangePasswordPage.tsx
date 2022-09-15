@@ -20,6 +20,10 @@ export default function ChangePassword() {
     message: ''
   } as DialogDetails);
 
+  const validate = () => {
+    return !(newPassword === '');
+  };
+
   const onCloseDialog = () => {
     setDialogOpen(false);
     resetDialog();
@@ -33,27 +37,32 @@ export default function ChangePassword() {
   };
 
   const handleChangePassword = async () => {
-    const res = await axios
-      .patch(
-        `${URL_USER_SVC}/change-password`,
-        { password: newPassword },
-        { withCredentials: true }
-      )
-      .catch((err) => {
+    if (validate()) {
+      const res = await axios
+        .patch(
+          `${URL_USER_SVC}/change-password`,
+          { password: newPassword },
+          { withCredentials: true }
+        )
+        .catch((err) => {
+          setDialogOpen(true);
+          if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
+            setDialogDetails({ message: 'Unable to change password', error: true });
+          } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+            setDialogDetails({ message: 'Not Authenticated. Please log in again.', error: true });
+          } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
+            setDialogDetails({ message: 'Unauthorised Action. Please log in again.', error: true });
+          } else {
+            setDialogDetails({ message: 'Please try again later', error: true });
+          }
+        });
+      if (res && res.status === STATUS_CODE_OK) {
         setDialogOpen(true);
-        if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-          setDialogDetails({ message: 'Unable to change password', error: true });
-        } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-          setDialogDetails({ message: 'Not Authenticated. Please log in again.', error: true });
-        } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
-          setDialogDetails({ message: 'Unauthorised Action. Please log in again.', error: true });
-        } else {
-          setDialogDetails({ message: 'Please try again later', error: true });
-        }
-      });
-    if (res && res.status === STATUS_CODE_OK) {
+        setDialogDetails({ message: 'Password changed successfully', error: false });
+      }
+    } else {
       setDialogOpen(true);
-      setDialogDetails({ message: 'Password changed successfully', error: false });
+      setDialogDetails({ message: 'New password is missing', error: true });
     }
   };
 

@@ -17,19 +17,28 @@ export default function SignupPage() {
   } as DialogDetails);
   const navigate = useNavigate();
 
+  const validate = () => {
+    return !(username === '' || password === '');
+  };
+
   const handleSignup = async () => {
-    const res = await axios.post(`${URL_USER_SVC}/`, { username, password }).catch((err) => {
-      setDialogOpen(true);
-      if (err.response.status === STATUS_CODE_CONFLICT) {
-        setDialogDetails({ message: 'This username already exists', error: true });
-      } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-        setDialogDetails({ message: 'Username or password is missing', error: true });
-      } else {
-        setDialogDetails({ message: 'Please try again later', error: true });
+    if (validate()) {
+      const res = await axios.post(`${URL_USER_SVC}/`, { username, password }).catch((err) => {
+        setDialogOpen(true);
+        if (err.response.status === STATUS_CODE_CONFLICT) {
+          setDialogDetails({ message: 'This username already exists', error: true });
+        } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+          setDialogDetails({ message: 'Username or password is missing', error: true });
+        } else {
+          setDialogDetails({ message: 'Please try again later', error: true });
+        }
+      });
+      if (res && res.status === STATUS_CODE_CREATED) {
+        navigate('../login');
       }
-    });
-    if (res && res.status === STATUS_CODE_CREATED) {
-      navigate('../login');
+    } else {
+      setDialogOpen(true);
+      setDialogDetails({ message: 'Username or password is missing', error: true });
     }
   };
 

@@ -24,27 +24,36 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const validate = () => {
+    return !(username === '' || password === '');
+  };
+
   const handleLogin = async () => {
-    const res = await axios
-      .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
-      .catch((err) => {
-        setDialogOpen(true);
-        if (err.response.status === STATUS_CODE_NOT_FOUND) {
-          setDialogDetails({ message: 'Username is not registered', error: true });
-        } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-          setDialogDetails({ message: 'Incorrect password', error: true });
-        } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
-          setDialogDetails({ message: 'Username or password is missing', error: true });
-        } else {
-          setDialogDetails({ message: 'Please try again later', error: true });
-        }
-      });
-    if (res && res.status === STATUS_CODE_OK) {
-      login({
-        username: res.data.username,
-        id: res.data.id
-      });
-      navigate('../match');
+    if (validate()) {
+      const res = await axios
+        .post(`${URL_USER_SVC}/login`, { username, password }, { withCredentials: true })
+        .catch((err) => {
+          setDialogOpen(true);
+          if (err.response.status === STATUS_CODE_NOT_FOUND) {
+            setDialogDetails({ message: 'Username is not registered', error: true });
+          } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
+            setDialogDetails({ message: 'Incorrect password', error: true });
+          } else if (err.response.status === STATUS_CODE_BAD_REQUEST) {
+            setDialogDetails({ message: 'Username or password is missing', error: true });
+          } else {
+            setDialogDetails({ message: 'Please try again later', error: true });
+          }
+        });
+      if (res && res.status === STATUS_CODE_OK) {
+        login({
+          username: res.data.username,
+          id: res.data.id
+        });
+        navigate('../match');
+      }
+    } else {
+      setDialogOpen(true);
+      setDialogDetails({ message: 'Username or password is missing', error: true });
     }
   };
 
