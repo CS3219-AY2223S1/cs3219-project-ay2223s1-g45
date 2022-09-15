@@ -84,7 +84,13 @@ function LobbyPage() {
       padding={'5%'}
       style={{ backgroundColor: 'white' }}
     >
-      <Box display={'flex'} flexDirection={'column'} padding={'5px'} width={'35%'} height={'100%'}>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        padding={'5px'}
+        width={'35%'}
+        height={'57.5vh'}
+      >
         <Box display={'flex'} flexDirection={'column'} width={'85%'} height={'100%'}>
           <h3 style={{ fontFamily: 'Arimo' }}>Chat</h3>
           <List sx={{ height: '100%', overflowY: 'auto' }}>
@@ -125,7 +131,7 @@ function LobbyPage() {
         </Box>
       </Box>
 
-      <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'100%'}>
+      <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
           aria-label="coding pad"
