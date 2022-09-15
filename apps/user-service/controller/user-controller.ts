@@ -117,7 +117,7 @@ export async function changePassword(req: Request, res: Response) {
     const id = req.userId;
     const newPassword = req.body.password;
     if (!newPassword) {
-      res.status(404).send({ message: 'New password missing!' });
+      res.status(400).send({ message: 'New password missing!' });
       return;
     }
     const saltRounds = 10;
