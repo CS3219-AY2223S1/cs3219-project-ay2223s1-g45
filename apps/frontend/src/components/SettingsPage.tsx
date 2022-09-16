@@ -1,14 +1,16 @@
 import {
   Box,
   Button,
+  Typography,
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle,
-  TextField
+  DialogTitle
 } from '@mui/material';
-import { useState } from 'react';
+import { Logo } from './Logo';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { URL_USER_SVC } from '../configs';
 import {
   STATUS_CODE_FORBIDDEN,
@@ -16,177 +18,176 @@ import {
   STATUS_CODE_OK,
   STATUS_CODE_UNAUTHORISED
 } from '../constants';
-import { useNavigate } from 'react-router-dom';
-import { Typography } from '@mui/material';
-import { useAuth } from '../context/AuthContext';
+import type { DialogDetails } from './Form';
+import { useState } from 'react';
 
-function SettingsPage() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [dialogTitle, setDialogTitle] = useState('');
-  const [dialogMsg, setDialogMsg] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [newPasswordErrorState, setNewPasswordErrorState] = useState(false);
-  const navigate = useNavigate();
+export default function SettingsPage() {
   const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogDetails, setDialogDetails] = useState({
+    title: '',
+    message: ''
+  } as DialogDetails);
+
+  const onCloseDialog = () => {
+    setDialogOpen(false);
+    resetDialog();
+  };
+
+  const resetDialog = () => {
+    setDialogDetails({
+      title: '',
+      message: ''
+    } as DialogDetails);
+  };
 
   const handleLogout = async () => {
     const res = await axios
       .post(`${URL_USER_SVC}/logout`, {}, { withCredentials: true })
       .catch((err) => {
         if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-          setErrorDialog('Unable to log out');
+          console.log('Unable to log out');
         } else {
-          setErrorDialog('Please try again later');
+          console.log('Please try again later');
         }
       });
     if (res && res.status === STATUS_CODE_OK) {
-      handleNavigation();
+      navigate('../login');
       logout();
     }
   };
 
+  const confirmDelete = () => {
+    setDialogDetails({ message: 'Are you sure you want to delete your account?', button: true });
+    setDialogOpen(true);
+  };
+
   const handleDelete = async () => {
+    onCloseDialog();
     const res = await axios.delete(`${URL_USER_SVC}/`, { withCredentials: true }).catch((err) => {
+      setDialogOpen(true);
       if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-        setErrorDialog('Unable to delete');
+        setDialogDetails({ message: 'Unable to delete', error: true });
       } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-        setErrorDialog('Not Authenticated. Please log in again.');
+        setDialogDetails({ message: 'Not Authenticated. Please log in again.', error: true });
       } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
-        setErrorDialog('Unauthorised Action. Please log in again.');
+        setDialogDetails({ message: 'Unauthorised Action. Please log in again.', error: true });
       } else {
-        setErrorDialog('Please try again later');
+        setDialogDetails({ message: 'Please try again later', error: true });
       }
     });
     if (res && res.status === STATUS_CODE_OK) {
-      handleNavigation();
+      navigate('../login');
       logout();
     }
   };
 
   const handleChangePassword = async () => {
-    const res = await axios
-      .patch(
-        `${URL_USER_SVC}/change-password`,
-        { password: newPassword },
-        { withCredentials: true }
-      )
-      .catch((err) => {
-        if (err.response.status === STATUS_CODE_INTERNAL_SERVER_ERROR) {
-          setErrorDialog('Unable to change password');
-        } else if (err.response.status === STATUS_CODE_UNAUTHORISED) {
-          setErrorDialog('Not Authenticated. Please log in again.');
-        } else if (err.response.status === STATUS_CODE_FORBIDDEN) {
-          setErrorDialog('Unauthorised Action. Please log in again.');
-        } else {
-          setErrorDialog('Please try again later');
-        }
-      });
-    if (res && res.status === STATUS_CODE_OK) {
-      setSuccessDialog('Password changed successfully');
-    }
-  };
-
-  const closeDialog = () => setIsDialogOpen(false);
-
-  const setErrorDialog = (msg: any) => {
-    setIsDialogOpen(true);
-    setDialogTitle('Error');
-    setDialogMsg(msg);
-  };
-
-  const setSuccessDialog = (msg: any) => {
-    setIsDialogOpen(true);
-    setDialogTitle('Success');
-    setDialogMsg(msg);
-  };
-
-  const handleNavigation = () => {
-    navigate('../login');
+    navigate('../change-password');
   };
 
   return (
     <Box
-      display={'flex'}
-      flexDirection={'column'}
-      width={'90%'}
-      alignItems={'center'}
-      fontFamily={'Arimo'}
+      className="Settings"
+      width="90%"
+      height="90%"
+      bgcolor={'primary.light'}
+      gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
+      display={'flex'}
     >
       <Box
         display={'flex'}
-        flexDirection={'column'}
-        justifyContent={'flex-end'}
+        width={'50%'}
+        className="Logo"
+        justifyContent={'center'}
         alignItems={'center'}
+      >
+        <Logo />
+      </Box>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        width={'50%'}
       >
         <Typography variant={'h3'} marginBottom={'2rem'} fontFamily={'Arimo'}>
           Settings
         </Typography>
-        <TextField
-          label="New Password"
-          variant="standard"
-          type="password"
-          value={newPassword}
-          onChange={(e) => {
-            setNewPasswordErrorState(false);
-            setNewPassword(e.target.value);
-          }}
-          sx={{ marginBottom: '1rem', width: '75%' }}
-          autoFocus
-          required
-          error={newPasswordErrorState}
-        />
         <Button
           variant={'outlined'}
-          onClick={() => {
-            if (newPassword === '') {
-              setNewPasswordErrorState(true);
-              return;
-            }
-            handleChangePassword();
-          }}
-          style={{
-            color: 'white',
-            borderColor: 'white',
-            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          color={'secondary'}
+          onClick={handleChangePassword}
+          sx={{
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+            margin: '0.5rem',
+            width: '65%'
           }}
         >
           Change Password
         </Button>
         <Button
           variant={'outlined'}
+          color={'secondary'}
           onClick={handleLogout}
-          style={{
-            color: 'white',
-            borderColor: 'white',
-            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          sx={{
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+            margin: '0.5rem',
+            width: '65%'
           }}
         >
           Log Out
         </Button>
         <Button
           variant={'outlined'}
-          onClick={handleDelete}
-          style={{
-            color: 'white',
-            borderColor: 'white',
-            background: 'linear-gradient(90deg, #AC44B0, #EF429A)'
+          color={'secondary'}
+          onClick={confirmDelete}
+          sx={{
+            background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+            margin: '0.5rem',
+            width: '65%'
           }}
         >
           Delete Account
         </Button>
       </Box>
-
-      <Dialog open={isDialogOpen} onClose={closeDialog}>
-        <DialogTitle>{dialogTitle}</DialogTitle>
+      <Dialog open={dialogOpen} onClose={onCloseDialog}>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{dialogMsg}</DialogContentText>
+          <DialogContentText>{dialogDetails.message}</DialogContentText>
         </DialogContent>
+        {dialogDetails.button && (
+          <Box display={'flex'} justifyContent={'center'}>
+            <Button
+              variant={'outlined'}
+              color={'secondary'}
+              onClick={handleDelete}
+              sx={{
+                background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              variant={'outlined'}
+              color={'secondary'}
+              onClick={onCloseDialog}
+              sx={{
+                background: 'linear-gradient(90deg, #EF429A, #AC44B0)',
+                margin: '0.5rem',
+                width: '40%'
+              }}
+            >
+              No
+            </Button>
+          </Box>
+        )}
       </Dialog>
     </Box>
   );
 }
-
-export default SettingsPage;
