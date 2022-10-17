@@ -1,7 +1,6 @@
-const express = require('express');
-const questionsRoute = require('./routes/questionsRoute');
-require('dotenv').config();
-
+import express from 'express';
+import questionsRoute from './routes/questionsRoute';
+import 'dotenv/config';
 const port = 8004;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -13,7 +12,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
-
 const mongoose = require('mongoose');
 const mongoDB = process.env.ENV === 'PROD' ? process.env.DB_CLOUD_URI : process.env.DB_LOCAL_URI;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
