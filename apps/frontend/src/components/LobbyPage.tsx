@@ -35,13 +35,16 @@ function LobbyPage() {
   const { currentUser } = useAuth();
 
   const getQuestion = async () => {
-    const res = await axios.get(`http://localhost:8004/api/questions?difficulty=${difficulty}&random=true`);
+    const res = await axios.get(
+      `http://localhost:8004/api/questions?difficulty=${difficulty}&random=true`
+    );
     const questions = res.data;
     setQuestion(questions[0]);
-  }
+  };
 
-  useEffect(() =>  {
-    getQuestion() });
+  useEffect(() => {
+    getQuestion();
+  });
 
   const onCloseDialog = () => {
     setDialogOpen(false);
@@ -130,7 +133,9 @@ function LobbyPage() {
             }}
           />
           <Button
-            onClick={() => {onSendMessage(currentUser.username)}}
+            onClick={() => {
+              onSendMessage(currentUser.username);
+            }}
             color={'secondary'}
             style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
           >
@@ -147,9 +152,7 @@ function LobbyPage() {
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
-        <p>
-            {question}
-        </p>
+        <p>{question}</p>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
           aria-label="coding pad"

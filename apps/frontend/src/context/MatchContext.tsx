@@ -15,11 +15,11 @@ export function useMatch() {
 }
 
 export default function MatchProvider({ children }: MatchContextProps) {
-    const [difficulty, setDifficulty] = useState('' as unknown as Difficulty);
+  const [difficulty, setDifficulty] = useState('' as unknown as Difficulty);
 
-    const handleSelectedDifficulty = (selectedDifficulty: Difficulty) => {
-        setDifficulty(selectedDifficulty);
-    }
+  const handleSelectedDifficulty = (selectedDifficulty: Difficulty) => {
+    setDifficulty(selectedDifficulty);
+  };
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values
   const context = {
