@@ -1,36 +1,38 @@
-const Question = require('../model/question');
+import Question from '../model/question';
 
-exports.get = (req, res) => {
+export const get = (req: any, res: any) => {
   Question.find((err, questions) => {
     if (err) return res.send(err);
 
     if (req.query.difficulty) {
+      // eslint-disable-next-line no-param-reassign
       questions = questions.filter(
         (question) => question.difficulty.toLowerCase() === req.query.difficulty.toLowerCase()
       );
     }
 
     if (req.query.random && req.query.random.toLowerCase() === 'true') {
-      questions = questions[Math.floor(Math.random() * questions.length)];
+      // eslint-disable-next-line no-param-reassign
+      questions = [questions[Math.floor(Math.random() * questions.length)]];
     }
 
-    res.json({
+    return res.json({
       message: 'Questions retrieved successfully',
       data: questions
     });
   });
 };
 
-exports.getById = (req, res) => {
+export const getById = (req: any, res: any) => {
   Question.find((err, questions) => {
     if (err) return res.send(err);
-    const id = req.params.id;
+    const { id } = req.params;
     const question = questions[id - 1];
     if (!question) {
       return res.json({ message: `Question with id ${id} does not exist` });
     }
 
-    res.json({
+    return res.json({
       message: 'Question retrieved successfully',
       data: question
     });
