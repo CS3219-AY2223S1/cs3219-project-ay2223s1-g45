@@ -7,6 +7,7 @@ import DifficultySelectPage from './components/MatchPage';
 import { Box } from '@mui/material';
 import NavigationBar from './components/NavigationBar';
 import AuthContext, { useAuth } from './context/AuthContext';
+import MatchContext from './context/MatchContext';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/Theme';
 import ChangePassword from './components/ChangePasswordPage';
@@ -78,7 +79,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AuthContext>
-        <AppContainer />
+        <MatchContext>
+          <AppContainer />
+        </MatchContext>
       </AuthContext>
     </ThemeProvider>
   );

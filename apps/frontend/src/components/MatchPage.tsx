@@ -15,6 +15,7 @@ import { useState } from 'react';
 import io from 'socket.io-client';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useNavigate } from 'react-router-dom';
+import { useMatch } from '../context/MatchContext';
 import { Logo } from './Logo';
 
 const socket = io('http://localhost:8001');
@@ -30,9 +31,11 @@ function DifficultySelectPage() {
   const [isMatching, setIsMatching] = useState(false);
   const [wasMatchNotFound, setWasNotMatchFound] = useState(false);
   const navigate = useNavigate();
+  const { handleSelectedDifficulty } = useMatch();
 
   const matchUser = () => {
     setIsMatching(true);
+    handleSelectedDifficulty(difficulty.toLowerCase());
     console.log(`Selected difficulty ${difficulty}`);
     socket.emit('find-match', { difficulty: difficulty.toLowerCase() });
   };

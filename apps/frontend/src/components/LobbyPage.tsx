@@ -10,10 +10,13 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useMatch } from '../context/MatchContext';
+import { useAuth } from '../context/AuthContext';
 import io from 'socket.io-client';
 import type { DialogDetails } from './Form';
+import axios from 'axios';
 
 const socket = io('http://localhost:8002');
 
@@ -21,12 +24,27 @@ function LobbyPage() {
   const [codingPadInput, setCodingPadInput] = useState('');
   const [chatMessageInput, setChatMessageInput] = useState('');
   const [allChatMessages, setAllChatMessages] = useState<string[]>([]);
+  const [question, setQuestion] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
   const [dialogDetails, setDialogDetails] = useState({
     title: '',
     message: ''
   } as DialogDetails);
+  const { difficulty } = useMatch();
+  const { currentUser } = useAuth();
+
+  const getQuestion = async () => {
+    const res = await axios.get(
+      `http://localhost:8004/api/questions?difficulty=${difficulty}&random=true`
+    );
+    const questions = res.data;
+    setQuestion(questions[0]);
+  };
+
+  useEffect(() => {
+    getQuestion();
+  });
 
   const onCloseDialog = () => {
     setDialogOpen(false);
@@ -57,12 +75,12 @@ function LobbyPage() {
     setCodingPadInput(updatedCodingPadInput);
   });
 
-  const onSendMessage = () => {
+  const onSendMessage = (username: string) => {
     if (!chatMessageInput) {
       return;
     }
 
-    socket.emit('send-chat-message', { message: chatMessageInput, roomId });
+    socket.emit('send-chat-message', { message: `${username}: ${chatMessageInput}`, roomId });
     setChatMessageInput('');
   };
 
@@ -110,12 +128,14 @@ function LobbyPage() {
             sx={{ margin: '0.5rem' }}
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
-                onSendMessage();
+                onSendMessage(currentUser.username);
               }
             }}
           />
           <Button
-            onClick={onSendMessage}
+            onClick={() => {
+              onSendMessage(currentUser.username);
+            }}
             color={'secondary'}
             style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
           >
@@ -132,6 +152,7 @@ function LobbyPage() {
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
+        <p>{question}</p>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
           aria-label="coding pad"
