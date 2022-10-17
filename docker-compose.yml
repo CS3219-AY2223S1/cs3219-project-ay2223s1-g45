@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  frontend:
+    build: apps/frontend
+    ports:
+      - '3000:3000'
+  user-service:
+    build: apps/user-service
+    ports:
+      - '8000:8000'
+  matching-service:
+    build: apps/matching-service
+    ports:
+      - '8001:8001'
+  communication-service:
+    build: apps/communication-service
+    ports:
+      - '8002:8002'
+  question-service:
+    build: apps/question-service
+    ports:
+      - '8004:8004'
