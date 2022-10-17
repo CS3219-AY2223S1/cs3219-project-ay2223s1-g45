@@ -8,7 +8,8 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -38,13 +39,15 @@ function LobbyPage() {
     const res = await axios.get(
       `http://localhost:8004/api/questions?difficulty=${difficulty}&random=true`
     );
-    const questions = res.data;
-    setQuestion(questions[0]);
+    const { data } = res;
+    const questions = data.data;
+    setQuestion(questions[0].question);
   };
 
   useEffect(() => {
     getQuestion();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onCloseDialog = () => {
     setDialogOpen(false);
@@ -152,7 +155,9 @@ function LobbyPage() {
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
-        <p>{question}</p>
+        <Typography variant={'body1'} maxHeight={'20vh'} style={{ overflowY: 'scroll' }}>
+          {question}
+        </Typography>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
           aria-label="coding pad"
