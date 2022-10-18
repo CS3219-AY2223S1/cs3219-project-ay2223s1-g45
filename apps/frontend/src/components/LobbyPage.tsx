@@ -35,9 +35,13 @@ function LobbyPage() {
   const { difficulty } = useMatch();
   const { currentUser } = useAuth();
 
+  const locationState = useLocation().state as { roomId: string };
+  const roomId = locationState.roomId;
+  socket.emit('join-lobby', roomId);
+
   const getQuestion = async () => {
     const res = await axios.get(
-      `http://localhost:8004/api/questions?difficulty=${difficulty}&random=true`
+      `http://localhost:8004/api/questions?difficulty=${difficulty}&random=${roomId}`
     );
     const { data } = res;
     const questions = data.data;
@@ -69,10 +73,6 @@ function LobbyPage() {
   const handleBack = () => {
     navigate('../match');
   };
-
-  const locationState = useLocation().state as { roomId: string };
-  const roomId = locationState.roomId;
-  socket.emit('join-lobby', roomId);
 
   socket.on('receive-coding-pad-input', (updatedCodingPadInput) => {
     setCodingPadInput(updatedCodingPadInput);
