@@ -25,7 +25,7 @@ function LobbyPage() {
   const [codingPadInput, setCodingPadInput] = useState('');
   const [chatMessageInput, setChatMessageInput] = useState('');
   const [allChatMessages, setAllChatMessages] = useState<string[]>([]);
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState({ id: '', question: '', difficulty: '', title: '' });
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
   const [dialogDetails, setDialogDetails] = useState({
@@ -41,7 +41,7 @@ function LobbyPage() {
     );
     const { data } = res;
     const questions = data.data;
-    setQuestion(questions[0].question);
+    setQuestion(questions[0]);
   };
 
   useEffect(() => {
@@ -155,8 +155,11 @@ function LobbyPage() {
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
+        <Typography variant={'h6'} maxHeight={'20vh'} paddingBottom="4px">
+          {question.title}
+        </Typography>
         <Typography variant={'body1'} maxHeight={'20vh'} style={{ overflowY: 'scroll' }}>
-          {question}
+          {question.question}
         </Typography>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
