@@ -15,8 +15,6 @@ export const get = (req: any, res: any) => {
     // Takes in anything as a param and hashes it to get a random index
     if (req.query.random) {
       const index = Math.abs(hashCode(JSON.stringify(req.query.random))) % filteredQuestions.length;
-      console.log('random ' + req.query.random);
-      console.log('index ' + index);
       filteredQuestions = [filteredQuestions[index]];
     }
 
