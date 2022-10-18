@@ -103,15 +103,13 @@ function LobbyPage() {
       fontFamily={'Arimo'}
       borderRadius={'10px'}
       padding={'5%'}
-      style={{ backgroundColor: 'white' }}
-    >
+      style={{ backgroundColor: 'white' }}>
       <Box
         display={'flex'}
         flexDirection={'column'}
         padding={'5px'}
         width={'35%'}
-        height={'57.5vh'}
-      >
+        height={'57.5vh'}>
         <Box display={'flex'} flexDirection={'column'} width={'85%'} height={'100%'}>
           <h3 style={{ fontFamily: 'Arimo' }}>Chat</h3>
           <List sx={{ height: '100%', overflowY: 'auto' }}>
@@ -140,22 +138,20 @@ function LobbyPage() {
               onSendMessage(currentUser.username);
             }}
             color={'secondary'}
-            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
-          >
+            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}>
             Send
           </Button>
           <Button
             onClick={confirmBack}
             color={'secondary'}
-            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}
-          >
+            style={{ background: 'linear-gradient(90deg, #AC44B0, #EF429A)', margin: '0.5rem' }}>
             Back
           </Button>
         </Box>
       </Box>
 
       <Box display={'flex'} flexDirection={'column'} width={'65%'} height={'60vh'}>
-        <Typography variant={'h6'} maxHeight={'20vh'} paddingBottom="4px">
+        <Typography variant={'h6'} maxHeight={'20vh'} paddingBottom="4px" fontWeight={'bold'}>
           {question.title}
         </Typography>
         <Typography variant={'body1'} maxHeight={'20vh'} style={{ overflowY: 'scroll' }}>
@@ -187,8 +183,7 @@ function LobbyPage() {
                 background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
                 margin: '0.5rem',
                 width: '40%'
-              }}
-            >
+              }}>
               Yes
             </Button>
             <Button
@@ -199,8 +194,7 @@ function LobbyPage() {
                 background: 'linear-gradient(90deg, #EF429A, #AC44B0)',
                 margin: '0.5rem',
                 width: '40%'
-              }}
-            >
+              }}>
               No
             </Button>
           </Box>
