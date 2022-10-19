@@ -9,8 +9,6 @@ services:
     build: apps/user-service
     ports:
       - '8000:8000'
-    links:
-      - mongo
   matching-service:
     build: apps/matching-service
     ports:
@@ -23,10 +21,3 @@ services:
     build: apps/question-service
     ports:
       - '8004:8004'
-  mongo:
-    container_name: mongo
-    image: mongo
-    volumes:
-      - ./data:/data/db
-    ports:
-      - '27017:27017'
