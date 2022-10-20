@@ -154,8 +154,12 @@ function LobbyPage() {
         <Typography variant={'h6'} maxHeight={'20vh'} paddingBottom="4px" fontWeight={'bold'}>
           {question.title}
         </Typography>
-        <Typography variant={'body1'} maxHeight={'20vh'} style={{ overflowY: 'scroll' }}>
-          {question.question}
+        <Typography
+          variant={'body1'}
+          maxHeight={'20vh'}
+          maxWidth={'150vh'}
+          style={{ overflowY: 'scroll' }}>
+          <div dangerouslySetInnerHTML={{ __html: question.question }} />
         </Typography>
         <h3 style={{ fontFamily: 'Arimo' }}>Code</h3>
         <TextareaAutosize
