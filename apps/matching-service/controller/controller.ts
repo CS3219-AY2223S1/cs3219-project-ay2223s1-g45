@@ -1,6 +1,7 @@
 import { Socket, Server } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { findMatchingUserInQueue, addUserToQueue, removeUserFromQueue } from '../model/repository';
+import { v4 as uuidv4 } from 'uuid';
 
 const respond = (
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
@@ -14,9 +15,9 @@ const respond = (
     // TypeScript support for Sequelize damn painful
     const matchingUser: any = await findMatchingUserInQueue(data.difficulty, socket.id);
     if (matchingUser !== null) {
-      const concatenatedIds = `${socket.id}%${matchingUser.socketId}`;
-      io.to(matchingUser.socketId).emit('match-found', concatenatedIds);
-      io.to(socket.id).emit('match-found', concatenatedIds);
+      const roomId = uuidv4();
+      io.to(matchingUser.socketId).emit('match-found', roomId);
+      io.to(socket.id).emit('match-found', roomId);
 
       // Only the user that was found is in DB
       matchingUser.destroy();
