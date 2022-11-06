@@ -1,8 +1,10 @@
 steps:
   - name: node
+    dir: 'apps/frontend'
     entrypoint: npm
     args: ['install']
   - name: node
+    dir: 'apps/frontend'
     entrypoint: npm
     args: ['run', 'create-env']
     env:
@@ -11,7 +13,6 @@ steps:
       - 'REACT_APP_URI_COMMUNICATION_SVC=${_REACT_APP_URI_COMMUNICATION_SVC}'
       - 'REACT_APP_URI_QUESTION_SVC=${_REACT_APP_URI_QUESTION_SVC}'
   - name: node
+    dir: 'apps/frontend'
     entrypoint: npm
     args: ['run', 'build']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy']
