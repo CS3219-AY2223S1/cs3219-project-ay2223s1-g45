@@ -17,7 +17,7 @@ export function useAuth() {
 }
 
 export default function AuthProvider({ children }: AuthContextProps) {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useSessionStorage('user', {});
   const [isAuthenticated, setIsAuthenticated] = useSessionStorage('authStatus', false);
 
   const login = (user: User) => {
