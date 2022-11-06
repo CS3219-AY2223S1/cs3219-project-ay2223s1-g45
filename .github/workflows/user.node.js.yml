@@ -7,11 +7,11 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'user-service/**'
+      - 'apps/user-service/**'
   pull_request:
     branches: [ "main" ]
     paths:
-      - 'user-service/**'
+      - 'apps/user-service/**'
 
 jobs:
   build:
