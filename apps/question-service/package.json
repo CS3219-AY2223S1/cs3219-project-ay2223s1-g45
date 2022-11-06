@@ -9,7 +9,7 @@
     "dev:js": "nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
     "dev": "concurrently npm:dev:*",
     "start": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
-    "create-env": "printenv > .env"
+    "create-env-and-build": "printenv > .env && npm i && tsc"
   },
   "author": "",
   "license": "ISC",
