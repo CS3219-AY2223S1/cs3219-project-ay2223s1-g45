@@ -6,11 +6,7 @@ steps:
   - name: node
     dir: 'apps/question-service'
     entrypoint: npm
-    args: ['run', 'create-env']
+    args: ['run', 'create-env-and-build']
     env:
       - 'ENV=${_ENV}'
       - 'DB_CLOUD_URI=${_DB_CLOUD_URI}'
-  - name: node
-    dir: 'apps/question-service'
-    entrypoint: npm
-    args: ['run', 'build']
