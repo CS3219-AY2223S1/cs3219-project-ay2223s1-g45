@@ -18,8 +18,7 @@ app.use(express.urlencoded({ extended: true }) as unknown as PathParams);
 app.use(express.json() as unknown as PathParams);
 app.use(
   cors({
-    // TODO: add prod url
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', String(process.env.FRONTEND_URL)],
     credentials: true
   })
 );
@@ -44,7 +43,6 @@ router.get('/user-content', [authJwt.verifyToken], userContent);
 
 app.use('/api/user', router).all(((_: any, res: any) => {
   res.setHeader('content-type', 'application/json');
-  // TODO: add prod url
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 }) as unknown as PathParams);
 
