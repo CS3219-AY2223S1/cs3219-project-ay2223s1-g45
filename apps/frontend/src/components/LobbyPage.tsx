@@ -18,6 +18,7 @@ import { useAuth } from '../context/AuthContext';
 import io from 'socket.io-client';
 import type { DialogDetails } from './Form';
 import axios from 'axios';
+import { URL_QUESTION_SVC } from '../configs';
 
 const socket = io('http://localhost:8002');
 
@@ -40,9 +41,7 @@ function LobbyPage() {
   socket.emit('join-lobby', roomId);
 
   const getQuestion = async () => {
-    const res = await axios.get(
-      `http://localhost:8004/api/questions?difficulty=${difficulty}&random=${roomId}`
-    );
+    const res = await axios.get(`${URL_QUESTION_SVC}?difficulty=${difficulty}&random=${roomId}`);
     const { data } = res;
     const questions = data.data;
     setQuestion(questions[0]);
