@@ -1,8 +1,10 @@
 steps:
   - name: node
+    dir: 'apps/user-service'
     entrypoint: npm
     args: ['install']
   - name: node
+    dir: 'apps/user-service'
     entrypoint: npm
     args: ['run', 'create-env']
     env:
@@ -10,7 +12,6 @@ steps:
       - 'DB_CLOUD_URI=${_DB_CLOUD_URI}'
       - 'FRONTEND_URL=${_FRONTEND_URL}'
   - name: node
+    dir: 'apps/user-service'
     entrypoint: npm
     args: ['run', 'build']
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['app', 'deploy']
