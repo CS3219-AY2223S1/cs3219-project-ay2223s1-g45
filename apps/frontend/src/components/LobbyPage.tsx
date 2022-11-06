@@ -18,9 +18,9 @@ import { useAuth } from '../context/AuthContext';
 import io from 'socket.io-client';
 import type { DialogDetails } from './Form';
 import axios from 'axios';
-import { URL_QUESTION_SVC } from '../configs';
+import { URL_COMMUNICATION_SVC, URL_QUESTION_SVC } from '../configs';
 
-const socket = io('http://localhost:8002');
+const socket = io(`${URL_COMMUNICATION_SVC}`);
 
 function LobbyPage() {
   const [codingPadInput, setCodingPadInput] = useState('');

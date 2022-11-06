@@ -8,7 +8,8 @@
     "dev:ts": "npm i && tsc -w",
     "dev:js": "nodemon --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
     "dev": "concurrently npm:dev:*",
-    "start": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/index.js"
+    "start": "npm run build && node --experimental-modules --es-module-specifier-resolution=node ./dist/index.js",
+    "create-env": "printenv > .env"
   },
   "author": "",
   "license": "ISC",

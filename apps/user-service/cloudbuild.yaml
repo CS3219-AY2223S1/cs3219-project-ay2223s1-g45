@@ -1,0 +1,16 @@
+steps:
+  - name: node
+    entrypoint: npm
+    args: ['install']
+  - name: node
+    entrypoint: npm
+    args: ['run', 'create-env']
+    env:
+      - 'ENV=${_ENV}'
+      - 'DB_CLOUD_URI=${_DB_CLOUD_URI}'
+      - 'FRONTEND_URL=${_FRONTEND_URL}'
+  - name: node
+    entrypoint: npm
+    args: ['run', 'build']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']
