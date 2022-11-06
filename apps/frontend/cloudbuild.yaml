@@ -1,0 +1,11 @@
+steps:
+  - name: node
+    entrypoint: npm
+    args: ['run', 'build']
+    env:
+      - 'REACT_APP_URI_USER_SVC=${_REACT_APP_URI_USER_SVC}'
+      - 'REACT_APP_URI_MATCHING_SVC=${_REACT_APP_URI_MATCHING_SVC}'
+      - 'REACT_APP_URI_COMMUNICATION_SVC=${_REACT_APP_URI_COMMUNICATION_SVC}'
+      - 'REACT_APP_URI_QUESTION_SVC=${_REACT_APP_URI_QUESTION_SVC}'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']

@@ -1,0 +1,9 @@
+steps:
+  - name: node
+    entrypoint: npm
+    args: ['run', 'build']
+    env:
+      - 'ENV=${_ENV}'
+      - 'DB_CLOUD_URI=${_DB_CLOUD_URI}'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy']
