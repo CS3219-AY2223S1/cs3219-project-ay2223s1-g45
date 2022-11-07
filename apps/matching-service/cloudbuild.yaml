@@ -1,5 +1,12 @@
 steps:
-  - name: node
+  - name: 'gcr.io/cloud-builders/docker'
     dir: 'apps/matching-service'
-    entrypoint: npm
-    args: ['run', 'build']
+    args:
+      [
+        'build',
+        '-t',
+        'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-matching-service:latest',
+        '.'
+      ]
+images:
+  - 'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-matching-service:latest'
