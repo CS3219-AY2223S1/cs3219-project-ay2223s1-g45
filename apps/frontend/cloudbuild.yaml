@@ -5,16 +5,12 @@ steps:
       [
         'build',
         '-t',
-        'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-frontend:latest',
-        '--build-arg',
-        'REACT_APP_URI_USER_SVC_ARG=${_REACT_APP_URI_USER_SVC}',
-        '--build-arg',
-        'REACT_APP_URI_MATCHING_SVC_ARG=${_REACT_APP_URI_MATCHING_SVC}',
-        '--build-arg',
-        'REACT_APP_URI_COMMUNICATION_SVC_ARG=${_REACT_APP_URI_COMMUNICATION_SVC}',
-        '--build-arg',
-        'REACT_APP_URI_QUESTION_SVC_ARG=${_REACT_APP_URI_QUESTION_SVC}',
+        'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-frontend:f2bab0712eecd7212f9e86eb3ca8f725e8d22006',
+        '--build-arg=REACT_APP_URI_USER_SVC_ARG=${_REACT_APP_URI_USER_SVC}',
+        '--build-arg=REACT_APP_URI_MATCHING_SVC_ARG=${_REACT_APP_URI_MATCHING_SVC}',
+        '--build-arg=REACT_APP_URI_COMMUNICATION_SVC_ARG=${_REACT_APP_URI_COMMUNICATION_SVC}',
+        '--build-arg=REACT_APP_URI_QUESTION_SVC_ARG=${_REACT_APP_URI_QUESTION_SVC}',
         '.'
       ]
 images:
-  - 'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-frontend:latest'
+  - 'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-frontend:f2bab0712eecd7212f9e86eb3ca8f725e8d22006'

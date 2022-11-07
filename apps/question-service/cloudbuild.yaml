@@ -1,16 +1,15 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    dir: 'apps/question-service'
+    dir: 'apps/user-service'
     args:
       [
         'build',
         '-t',
-        'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-question-service:latest',
-        '--build-arg'
-        'ENV_ARG=${_ENV}',
-        '--build-arg',
-        'DB_CLOUD_URI_ARG=${_DB_CLOUD_URI}',
+        'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-user-service:c5ad252efea9c68d4c67c77b6c77de5219ec2a11',
+        '--build-arg=ENV_ARG=${_ENV}',
+        '--build-arg=DB_CLOUD_URI_ARG=${_DB_CLOUD_URI}',
+        '--build-arg=FRONTEND_URL_ARG=${_FRONTEND_URL}',
         '.'
       ]
 images:
-  - 'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-question-service:latest'
+  - 'asia.gcr.io/cs3219-g45/cs3219-project-ay2223s1-g45/cs3219-g45-user-service:c5ad252efea9c68d4c67c77b6c77de5219ec2a11'
