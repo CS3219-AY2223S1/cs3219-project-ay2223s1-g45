@@ -25,7 +25,7 @@ app.use(
 app.use(
   cookieSession({
     name: 'session',
-    secret: 'COOKIE_SECRET', // TODO: should use as secret environment variable
+    secret: process.env.COOKIE_SECRET || 'COOKIE_SECRET',
     httpOnly: true
   })
 );

@@ -72,8 +72,7 @@ export async function login(req: any, res: any) {
           res.status(401).send({ message: 'Invalid Password!' });
           return;
         }
-        // TODO: should use as secret environment variable
-        const token = jwt.sign({ id: user.id }, 'JWT_SECRET', {
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'JWT_SECRET', {
           expiresIn: 86400 // 24 hours
         });
         req.session.token = token;

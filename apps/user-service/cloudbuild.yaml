@@ -9,6 +9,8 @@ steps:
         '--build-arg=ENV_ARG=${_ENV}',
         '--build-arg=DB_CLOUD_URI_ARG=${_DB_CLOUD_URI}',
         '--build-arg=FRONTEND_URL_ARG=${_FRONTEND_URL}',
+        '--build-arg=JWT_SECRET_ARG=${_JWT_SECRET}',
+        '--build-arg=COOKIE_SECRET_ARG=${_COOKIE_SECRET}',
         '.'
       ]
 images:
