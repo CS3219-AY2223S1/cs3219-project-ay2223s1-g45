@@ -1,7 +1,7 @@
 import { Socket, Server } from 'socket.io';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { findMatchingUserInQueue, addUserToQueue, removeUserFromQueue } from '../model/repository';
 import { v4 as uuidv4 } from 'uuid';
+import { findMatchingUserInQueue, addUserToQueue, removeUserFromQueue } from '../model/repository';
 
 const respond = (
   io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any>,
