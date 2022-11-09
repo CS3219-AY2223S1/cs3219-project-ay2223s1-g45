@@ -72,13 +72,15 @@ function DifficultySelectPage() {
       gridRow={2}
       borderRadius={'10px'}
       padding={'5%'}
-      display={'flex'}>
+      display={'flex'}
+    >
       <Box
         display={'flex'}
         width={'50%'}
         className="Logo"
         justifyContent={'center'}
-        alignItems={'center'}>
+        alignItems={'center'}
+      >
         <Logo />
       </Box>
       <Box
@@ -86,7 +88,8 @@ function DifficultySelectPage() {
         flexDirection={'column'}
         justifyContent={'center'}
         alignItems={'center'}
-        width={'50%'}>
+        width={'50%'}
+      >
         <Typography variant={'h3'} marginBottom={'2rem'} width={'75%'} textAlign={'center'}>
           Select Difficulty
         </Typography>
@@ -95,7 +98,8 @@ function DifficultySelectPage() {
             defaultValue={DIFFICULTY.EASY}
             value={difficulty}
             name="radio-buttons-group"
-            onChange={(e) => setDifficulty(e.target.value)}>
+            onChange={(e) => setDifficulty(e.target.value)}
+          >
             <FormControlLabel
               value={DIFFICULTY.EASY}
               control={<Radio />}
@@ -124,7 +128,8 @@ function DifficultySelectPage() {
             borderColor: 'white',
             background: 'linear-gradient(90deg, #AC44B0, #EF429A)',
             width: '75%'
-          }}>
+          }}
+        >
           Match
         </Button>
 
@@ -136,7 +141,8 @@ function DifficultySelectPage() {
               duration={30}
               colors={['#004777', '#F7B801', '#A30000', '#A30000']}
               colorsTime={[25, 15, 5, 0]}
-              onComplete={onNoMatchFound}>
+              onComplete={onNoMatchFound}
+            >
               {({ remainingTime }) => remainingTime}
             </CountdownCircleTimer>
           </DialogContent>
