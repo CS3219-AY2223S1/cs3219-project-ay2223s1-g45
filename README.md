@@ -1,6 +1,7 @@
 # CS3219-AY22-23-Project
 
 This document details how to set this repository up locally for development purposes.
+Deployed application can be found [here](https://cs3219-g45-frontend-c7v7akrz2a-as.a.run.app)
 
 ## Prerequisites
 
@@ -176,6 +177,9 @@ You should see the following message:
 ```
 Hello World
 ```
+
+Note that Question-Service can only fetch questions from the production database.
+Please use the deployed application to test this service.
 
 ### Frontend
 
