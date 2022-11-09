@@ -20,8 +20,7 @@ const verifyToken = (req: any, res: any, next: any) => {
         res.status(401).send({ message: 'Session token expired.' });
         return;
       }
-      // TODO: should use as secret environment variable
-      jwt.verify(token, 'JWT_SECRET', (errJwt: any, decoded: any) => {
+      jwt.verify(token, process.env.JWT_SECRET || 'JWT_SECRET', (errJwt: any, decoded: any) => {
         if (errJwt) {
           res.status(403).send({
             message: 'Unauthorized! You do not have permission to view this resource!'
