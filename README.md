@@ -178,8 +178,8 @@ You should see the following message:
 Hello World
 ```
 
-Note that Question-Service can only fetch questions from the production database.
-Please use the deployed application to test this service.
+**Note that Question-Service can only fetch questions from the production database.**
+**Please use the deployed application to test this service.**
 
 ### Frontend
 
